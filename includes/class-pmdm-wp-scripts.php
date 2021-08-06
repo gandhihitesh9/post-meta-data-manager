@@ -27,16 +27,17 @@ class Pmdm_Wp_Scripts {
 	 * @since 1.0
 	 */
 	public function pmdm_wp_admin_scripts( $hook ){
-
+		if($hook != "post.php"){
+			return;
+		}
 		global $post;
 
-		if ( !isset($post->post_type)) {
-	        return;
-	    }
-	    if ( !isset($post->ID)) {
+		if ( !isset($post->post_type) || (isset($post->post_status) && $post->post_status == "auto-draft") ) {
 	        return;
 	    }
 
+		
+		
 		// Styles
 		wp_register_style('pmdm-wp-datatable-styles',  PMDM_WP_INC_URL . '/css/datatables.min.css', array(), '', false);
    		wp_enqueue_style('pmdm-wp-datatable-styles'); 
