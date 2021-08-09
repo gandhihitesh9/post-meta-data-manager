@@ -79,14 +79,22 @@ class Pmdm_Wp_Admin {
 		<style type="text/css">
 			div.dataTables_wrapper div.dataTables_length select {
 				background-image: none !important;
+				-webkit-appearance : auto !important;
+			} 
+			.dataTables_filter input {
+				line-height: normal !important;
+			}
+			#pmdm-wp-table th {
+				text-align: left;
 			}
 		</style>
 
-		<table id="pmdm-wp-table" class="table is-striped" style="width:100%">
+		<table id="pmdm-wp-table" class="display" style="width:100%">
 	        <thead>
 	            <tr>
 	                <th><?php echo __( 'Key', 'pmdm_wp' ); ?></th>
 	                <th><?php echo __( 'Value', 'pmdm_wp' ); ?></th>
+	                <th><?php echo __( 'Action', 'pmdm_wp' ); ?></th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -109,7 +117,9 @@ class Pmdm_Wp_Admin {
 
 					echo '<td>' . esc_html( $meta_key ) . '</td>';
 
-					echo '<td>' . esc_html( var_export( $value, true ) ) . '</td></tr>' . "\n";
+					echo '<td>' . esc_html( var_export( $value, true ) ) . '</td>';
+
+					echo '<td><button type="button" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</button> <button type="button" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</button></td></tr>'."\n";
 				}
 
 	           ?>
@@ -118,6 +128,34 @@ class Pmdm_Wp_Admin {
 	    </table>
     <?php
 
+	}
+
+	/**
+	* Delete Meta Ajax
+	*
+	* @package Post Meta Data Manager For WordPress
+	* @since 1.0
+	*/
+
+	public function pmdm_wp_ajax_delete_meta() {
+		if(isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id']) {
+
+			$post_id = $_POST['post_id'];
+			$meta_id = $_POST['meta_id'];
+
+			delete_post_meta($post_id, $meta_id);
+
+			wp_send_json_success(
+				array('msg' => __('Meta successfully deleted', 'pmdm_wp'))
+			);
+
+		} else{
+			wp_send_json_error(
+				array('msg' => __('There is something worong! Please try again', 'pmdm_wp'))
+			);
+		}
+
+		die();
 	}
 
 
@@ -132,6 +170,11 @@ class Pmdm_Wp_Admin {
 
 		// add data table
 		add_action( 'add_meta_boxes', array( $this, 'pmdm_wp_add_meta_boxes' ), 1000, 2 );
+
+		// Delete Ajax
+		/* ajax export product */
+		add_action("wp_ajax_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta" ) ) ;
+		add_action( "wp_ajax_nopriv_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta") );
 
 	}
 }
