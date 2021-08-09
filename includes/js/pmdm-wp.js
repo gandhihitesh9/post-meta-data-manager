@@ -3,12 +3,15 @@ jQuery(document).ready(function() {
     	 columns: [
 		    null,
 		    { orderable: false },
-		    { orderable: false }
+		    { 	
+				orderable: false,
+				"width": "10%" 
+			}
 		  ]
     });
 
     /* Delete Meta Action */
-    jQuery('#pmdm-wp-table').on('click', 'td button.delete-meta', function (e){
+    jQuery('#pmdm-wp-table').on('click', 'td .delete-meta', function (e){
 	    e.preventDefault();
 
 	    var table = jQuery('#pmdm-wp-table').DataTable();	               

@@ -119,7 +119,7 @@ class Pmdm_Wp_Admin {
 
 					echo '<td>' . esc_html( var_export( $value, true ) ) . '</td>';
 
-					echo '<td><button type="button" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</button> <button type="button" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</button></td></tr>'."\n";
+					echo '<td><a href="javascript:;" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</a> | <a href="javascript:;" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</a></td></tr>'."\n";
 				}
 
 	           ?>
