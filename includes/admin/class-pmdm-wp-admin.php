@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class Pmdm_Wp_Admin {
 
 	public $scripts;
-
+	
 	//class constructor
 	function __construct() {
 
@@ -46,7 +46,23 @@ class Pmdm_Wp_Admin {
 			return;
 		}
 
+		/* $arr = array(
+			"abc" => "def",
+			"xyz" => array(
+				"a" => "apple",
+				"b" => "banana",
+				"c" => "mango",
+				"d" => array(
+					0 => "123",
+					1 => "234",
+					2 => "345",
+				),
+				"e" => 2.5,
+			),
+			"0" => "855"
+		);
 
+		update_post_meta($post->ID, "_abc", $arr); */
 
 		$metabox_id      = 'pmdm-wp';
 		$metabox_title   = __( 'Post Metadata Manager', 'pmdm_wp' );
@@ -86,6 +102,7 @@ class Pmdm_Wp_Admin {
 	        </thead>
 	        <tbody>
 	           <?php
+				
 	           foreach( $post_meta as $meta_key => $value ) {
 
 	           		if ( is_array( $value ) ) {	// Check if Array
@@ -100,29 +117,56 @@ class Pmdm_Wp_Admin {
 
 		           	$is_added = isset( $post_meta[ $meta_key ] ) ? false : true;
 
-					echo '<tr>';
+					?>
+						<tr>
+							<td><?php echo esc_html( $meta_key ); ?></td>
+							<td><?php echo esc_html( var_export( $value, true ) ); ?></td>
+							<td>
+								<a href="javascript:;" data-id="<?php echo $meta_key; ?>" id="edit-<?php echo $meta_key; ?>" class="edit-meta"><?php echo __( 'Edit', 'pmdm_wp' ); ?></a> 
 
-					echo '<td>' . esc_html( $meta_key ) . '</td>';
+								<div id="javascript:;" class="modal-window">
+									<div>
+										<a href="javascript:;" title="Close" class="modal-close">x</a>
+										<h1><strong><?php echo __( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo $meta_key; ?></h1>
+										<div class="model-body">
+											<form method="post" action="">
+											<?php wp_nonce_field( 'change_post_meta_action', 'change_post_meta_field' ); ?>
 
-					echo '<td>' . esc_html( var_export( $value, true ) ) . '</td>';
+											<?php 
+												$get_meta_field_values = get_post_meta($post->ID, $meta_key, true);
+												if(is_array($get_meta_field_values)){
 
-					echo '<td><a href="#open-modal" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</a> | <a href="javascript:;" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</a></td></tr>'."\n";
-				}
+													$this->pmdm_wp_get_recursively_inputs($meta_key, $get_meta_field_values);
+													
+												}else{
+													?>
+														<input type="text" name="<?php echo $meta_key; ?>" value="<?php echo $get_meta_field_values; ?>" />
+													<?php
+												}
+											?>
+											<input type="hidden" value="<?php echo $post->ID; ?>" name="current_post_id" />
+											<input type="submit" value="Change" />
+											</form>
+										</div>
+									</div>
+								</div>
 
-	           ?>
-	        </tbody>
-	      
-	    </table>
+								| 
+								<a href="javascript:;" data-id="<?php echo $meta_key; ?>"  id="delete-<?php echo $meta_key; ?>" class="delete-meta"><?php echo __( 'Delete', 'pmdm_wp' ); ?></a>
+							</td>
+						</tr>
+			
+	    
+    	<?php
 
-	    <div id="open-modal" class="modal-window">
-		  <div>
-		    <a href="#" title="Close" class="modal-close">x</a>
-		    <h1>Meta Value</h1>
-		    <div>Meta Value Here</div>
-		    
-		    </div>
-		</div>
-    <?php
+		}
+
+
+		?>
+
+				</tbody>
+			</table>
+		<?php
 
 	}
 
@@ -154,7 +198,73 @@ class Pmdm_Wp_Admin {
 		die();
 	}
 
+	/**
+	* print recursive input box using this function
+	*
+	* @package Post Meta Data Manager For WordPress
+	* @since 1.0
+	*/
+	public function pmdm_wp_get_recursively_inputs($meta_main_key, $get_meta_field_values, $level_key = array()){
+		
+		if(is_array($get_meta_field_values)){
+			
+			
+			foreach($get_meta_field_values as $gmfvk => $gmfvv){
+				if(is_array($gmfvv)){
+					$store_keys = array_merge($level_key,array($gmfvk));
+					$this->pmdm_wp_get_recursively_inputs($meta_main_key, $gmfvv, $store_keys);
+				}else{
+					$input_name = $meta_main_key;
 
+					if(!empty($level_key)){
+						foreach($level_key as $skk){
+							$input_name .= "[".$skk."]";
+						}
+					}
+					$input_name .= "[".$gmfvk."]";
+					
+					?>
+						<input type="text" name="<?php echo $input_name; ?>" value="<?php echo $gmfvv; ?>" /> <br/>
+					<?php
+					
+					
+				}
+				
+			}
+		}else{
+			?>
+				<input type="text" name="<?php echo $meta_main_key; ?>" value="<?php echo $get_meta_field_values; ?>" /> <br/>
+			<?php
+		}
+		
+	}
+
+
+	/**
+	* save post meta data using approprite key
+	*
+	* @package Post Meta Data Manager For WordPress
+	* @since 1.0
+	*/
+	public function pmdm_wp_change_post_meta(){
+
+		if (isset( $_POST['change_post_meta_field'] ) && wp_verify_nonce( $_POST['change_post_meta_field'], 'change_post_meta_action' ) ) {
+			
+			if(!empty($_POST)){
+				
+				
+				foreach($_POST as $pk => $pv){
+					if($pk == "change_post_meta_field" || $pk == "_wp_http_referer" || $pk == "current_post_id"){
+						continue;
+					}
+					
+					update_post_meta($_POST["current_post_id"], $pk, $pv);
+
+				}
+			}
+		} 
+
+	}
 
 	/**
 	 * Adding Hooks
@@ -170,6 +280,7 @@ class Pmdm_Wp_Admin {
 		// Delete Ajax
 		add_action("wp_ajax_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta" ) ) ;
 		add_action( "wp_ajax_nopriv_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta") );
+		add_action( "admin_init", array( $this, "pmdm_wp_change_post_meta") );
 
 	}
 }

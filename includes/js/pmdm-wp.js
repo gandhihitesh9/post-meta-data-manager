@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
     jQuery('#pmdm-wp-table').DataTable( {
     	 columns: [
 		    null,
@@ -13,8 +13,8 @@ jQuery(document).ready(function() {
   	/* escape close */
   	jQuery(document).keydown(function(event) { 
 	  if (event.keyCode == 27) { 
-	  	if(!jQuery('#open-modal').hasClass( "close" )) {
-	  		jQuery('#open-modal').addClass( "close" );
+	  	if(jQuery('.modal-window').hasClass( "open" )) {
+	  		jQuery('.modal-window').removeClass( "open" );
 	  	}
 	  }
 	});
@@ -23,6 +23,13 @@ jQuery(document).ready(function() {
     jQuery('#pmdm-wp-table').on('click', 'td .edit-meta', function (e){
     	jQuery('#open-modal').removeClass( "close" );
     });
+
+	$(document).on("click", ".edit-meta", function(){
+		$(this).siblings(".modal-window").addClass( "open" );
+	});
+	$(document).on("click", ".modal-close", function(){
+		$(this).parents(".modal-window").removeClass( "open" );
+	});
 
 
     /* Delete Meta Action */

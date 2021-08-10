@@ -11,10 +11,9 @@ div.dataTables_wrapper div.dataTables_length select {
 .blur-back {
 	opacity: 0.4;
 }
-#open-modal.close {
-	visibility: hidden;
-	opacity: 0.4;
-}
+
+
+
 .modal-window {
   position: fixed;
   background-color: #f1f1f1;
@@ -28,11 +27,12 @@ div.dataTables_wrapper div.dataTables_length select {
   pointer-events: none;
   transition: all 0.3s;
 }
-.modal-window:target {
+.modal-window.open {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
 }
+
 .modal-window > div {
   width: 400px;
   position: absolute;
