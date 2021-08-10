@@ -43,6 +43,9 @@ class Pmdm_Wp_Scripts {
 		wp_register_style('pmdm-wp-datatable-styles',  PMDM_WP_INC_URL . '/css/datatables.min.css', array(), '', false);
    		wp_enqueue_style('pmdm-wp-datatable-styles'); 
 
+   		wp_register_style('pmdm-wp-style',  PMDM_WP_INC_URL . '/css/pmdm-wp.css', array(), '', false);
+   		wp_enqueue_style('pmdm-wp-style'); 
+
 
    		// Js   		
    		wp_register_script('pmdm-wp-datatable-script', PMDM_WP_INC_URL . '/js/datatables.min.js', array(), '', true);
