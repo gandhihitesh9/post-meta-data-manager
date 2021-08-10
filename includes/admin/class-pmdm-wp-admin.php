@@ -74,20 +74,7 @@ class Pmdm_Wp_Admin {
 
 		$post_meta = get_post_meta( $post->ID );
 
-
-		?>
-		<style type="text/css">
-			div.dataTables_wrapper div.dataTables_length select {
-				background-image: none !important;
-				-webkit-appearance : auto !important;
-			} 
-			.dataTables_filter input {
-				line-height: normal !important;
-			}
-			#pmdm-wp-table th {
-				text-align: left;
-			}
-		</style>
+		?>		
 
 		<table id="pmdm-wp-table" class="display" style="width:100%">
 	        <thead>
@@ -119,13 +106,22 @@ class Pmdm_Wp_Admin {
 
 					echo '<td>' . esc_html( var_export( $value, true ) ) . '</td>';
 
-					echo '<td><a href="javascript:;" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</a> | <a href="javascript:;" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</a></td></tr>'."\n";
+					echo '<td><a href="#open-modal" data-id="'.$meta_key.'" id="edit-'.$meta_key.'" class="edit-meta">Edit</a> | <a href="javascript:;" data-id="'.$meta_key.'"  id="delete-'.$meta_key.'" class="delete-meta">Delete</a></td></tr>'."\n";
 				}
 
 	           ?>
 	        </tbody>
 	      
 	    </table>
+
+	    <div id="open-modal" class="modal-window">
+		  <div>
+		    <a href="#" title="Close" class="modal-close">x</a>
+		    <h1>Meta Value</h1>
+		    <div>Meta Value Here</div>
+		    
+		    </div>
+		</div>
     <?php
 
 	}
@@ -172,7 +168,6 @@ class Pmdm_Wp_Admin {
 		add_action( 'add_meta_boxes', array( $this, 'pmdm_wp_add_meta_boxes' ), 1000, 2 );
 
 		// Delete Ajax
-		/* ajax export product */
 		add_action("wp_ajax_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta" ) ) ;
 		add_action( "wp_ajax_nopriv_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta") );
 

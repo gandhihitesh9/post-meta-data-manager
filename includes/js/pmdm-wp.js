@@ -10,6 +10,12 @@ jQuery(document).ready(function() {
 		  ]
     });
 
+    /* Edit Meta Action */
+   /* jQuery('#pmdm-wp-table').on('click', 'td .edit-meta', function (e){
+	    jQuery("body").addClass("blur-back");
+
+	}); */
+
     /* Delete Meta Action */
     jQuery('#pmdm-wp-table').on('click', 'td .delete-meta', function (e){
 	    e.preventDefault();
