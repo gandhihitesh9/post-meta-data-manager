@@ -10,11 +10,20 @@ jQuery(document).ready(function() {
 		  ]
     });
 
-    /* Edit Meta Action */
-   /* jQuery('#pmdm-wp-table').on('click', 'td .edit-meta', function (e){
-	    jQuery("body").addClass("blur-back");
+  	/* escape close */
+  	jQuery(document).keydown(function(event) { 
+	  if (event.keyCode == 27) { 
+	  	if(!jQuery('#open-modal').hasClass( "close" )) {
+	  		jQuery('#open-modal').addClass( "close" );
+	  	}
+	  }
+	});
 
-	}); */
+  	/* Edit Button Action */
+    jQuery('#pmdm-wp-table').on('click', 'td .edit-meta', function (e){
+    	jQuery('#open-modal').removeClass( "close" );
+    });
+
 
     /* Delete Meta Action */
     jQuery('#pmdm-wp-table').on('click', 'td .delete-meta', function (e){
