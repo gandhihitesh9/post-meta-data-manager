@@ -1,12 +1,15 @@
 <?php
 /*
-Plugin Name: Post Meta Data Manager For WordPress
-Plugin URI: http://localhost/eventmanager
-Description: Post Meta management for Wordpress Posts
-Version: 1.0
-Author: Admin
-Text Domain: pmdm_wp
-Author URI: http://localhost/eventmanager
+ * Plugin Name: Post Meta Data Manager For WordPress
+ * Plugin URI: http://www.wpexpertplugins.com/
+ * Description: Post Meta management for Wordpress Posts, Pages, Custom Post Types.
+ * Version: 1.0.0
+ * Author: Hitesh Gandhi
+ * Text Domain: pmdm_wp
+ * Author URI: http://www.wpexpertplugins.com/contact-us/
+ * Requires at least: 5.5
+ * WC tested up to: 5.8
+ * Domain Path: /languages
 */
 
 /**
@@ -19,7 +22,7 @@ if( !defined( 'PMDM_WP_DIR' ) ) {
   define( 'PMDM_WP_DIR', dirname( __FILE__ ) );      // Plugin dir
 }
 if( !defined( 'PMDM_WP_VERSION' ) ) {
-  define( 'PMDM_WP_VERSION', '1.0' );      // Plugin Version
+  define( 'PMDM_WP_VERSION', '1.0.0' );      // Plugin Version
 }
 if( !defined( 'PMDM_WP_URL' ) ) {
   define( 'PMDM_WP_URL', plugin_dir_url( __FILE__ ) );   // Plugin url

@@ -46,24 +46,6 @@ class Pmdm_Wp_Admin {
 			return;
 		}
 
-		/* $arr = array(
-			"abc" => "def",
-			"xyz" => array(
-				"a" => "apple",
-				"b" => "banana",
-				"c" => "mango",
-				"d" => array(
-					0 => "123",
-					1 => "234",
-					2 => "345",
-				),
-				"e" => 2.5,
-			),
-			"0" => "855"
-		);
-
-		update_post_meta($post->ID, "_abc", $arr); */
-
 		$metabox_id      = 'pmdm-wp';
 		$metabox_title   = __( 'Post Metadata Manager', 'pmdm_wp' );
 		$metabox_screen  = $post_type;
@@ -140,12 +122,17 @@ class Pmdm_Wp_Admin {
 													
 												}else{
 													?>
-														<input type="text" name="<?php echo $meta_key; ?>" value="<?php echo $get_meta_field_values; ?>" />
+														<div class="input_wrapper">
+															<p class="display_label_key">Key: <strong><?php echo $meta_key; ?></strong></p>
+															<input type="text" name="<?php echo $meta_key; ?>" class="input_box" value="<?php echo $get_meta_field_values; ?>" />
+														</div>
 													<?php
 												}
 											?>
-											<input type="hidden" value="<?php echo $post->ID; ?>" name="current_post_id" />
-											<input type="submit" value="Change" />
+												<input type="hidden" value="<?php echo $post->ID; ?>" name="current_post_id" />
+
+												<input type="submit" value="Change" class="change_btn" />
+
 											</form>
 										</div>
 									</div>
@@ -216,15 +203,21 @@ class Pmdm_Wp_Admin {
 				}else{
 					$input_name = $meta_main_key;
 
+					$display_label = $meta_main_key;
+
 					if(!empty($level_key)){
 						foreach($level_key as $skk){
 							$input_name .= "[".$skk."]";
+							$display_label .= "=>".$skk;
 						}
 					}
 					$input_name .= "[".$gmfvk."]";
-					
+					$display_label .= "=>".$gmfvk;
 					?>
-						<input type="text" name="<?php echo $input_name; ?>" value="<?php echo $gmfvv; ?>" /> <br/>
+						<div class="input_wrapper">
+							<p class="display_label_key">Key: <strong><?php echo $display_label; ?></strong></p>
+							<input type="text" name="<?php echo $input_name; ?>" class="input_box" value="<?php echo $gmfvv; ?>" />
+						</div>
 					<?php
 					
 					

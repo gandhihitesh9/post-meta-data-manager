@@ -14,6 +14,7 @@ div.dataTables_wrapper div.dataTables_length select {
 
 
 
+
 .modal-window {
   position: fixed;
   background-color: #f1f1f1;
@@ -31,6 +32,7 @@ div.dataTables_wrapper div.dataTables_length select {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
+  z-index: 99999;
 }
 
 .modal-window > div {
@@ -65,4 +67,20 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 .modal-close:hover {
   color: black;
+}
+
+.display_label_key {
+  padding-top: 5px;
+  margin: 0;
+}
+.input_wrapper {
+  float: left;
+  margin-right: 5px;
+}
+.change_btn {
+  float: left;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bolder;
 }
