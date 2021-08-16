@@ -1,10 +1,10 @@
 <?php
 /*
- * Plugin Name: Post Meta Data Manager For WordPress
+ * Plugin Name: Post Meta Data Manager
  * Plugin URI: http://www.wpexpertplugins.com/
- * Description: Post Meta management for Wordpress Posts, Pages, Custom Post Types.
+ * Description: Post Meta management Posts, Pages, Custom Post Types.
  * Version: 1.0.0
- * Author: Hitesh Gandhi
+ * Author: WpExpertPlugins
  * Text Domain: pmdm_wp
  * Author URI: http://www.wpexpertplugins.com/contact-us/
  * Requires at least: 5.5
@@ -15,7 +15,7 @@
 /**
  * Basic plugin definitions 
  * 
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 if( !defined( 'PMDM_WP_DIR' ) ) {
@@ -51,7 +51,7 @@ if(!defined('PMDM_WP_VAR_PREFIX')) {
  *
  * This gets the plugin ready for translation.
  *
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 add_action( 'plugins_loaded',  'pmdm_wp_init_textdomain' );
@@ -84,7 +84,7 @@ function pmdm_wp_init_textdomain () {
  *
  * Register plugin activation hook.
  *
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 register_activation_hook( __FILE__, 'pmdm_wp_install' );
@@ -98,7 +98,7 @@ function pmdm_wp_install(){
  *
  * Register plugin deactivation hook.
  *
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 register_deactivation_hook( __FILE__, 'pmdm_wp_uninstall');

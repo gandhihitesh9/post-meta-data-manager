@@ -8,7 +8,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Handles adding scripts functionality to the admin pages
  * as well as the front pages.
  *
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 
@@ -23,7 +23,7 @@ class Pmdm_Wp_Scripts {
 	/**
 	 * Enqueue Scripts on Admin Side
 	 * 
-	 * @package Post Meta Data Manager For WordPress
+	 * @package Post Meta Data Manager
 	 * @since 1.0
 	 */
 	public function pmdm_wp_admin_scripts( $hook ){
@@ -63,7 +63,7 @@ class Pmdm_Wp_Scripts {
 	 *
 	 * Adding hooks for the styles and scripts.
 	 *
-	 * @package Post Meta Data Manager For WordPress
+	 * @package Post Meta Data Manager
 	 * @since 1.0
 	 */
 	function add_hooks(){

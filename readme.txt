@@ -1,7 +1,7 @@
-=== Post Meta Data Manager For WordPress ===
+=== Post Meta Data Manager ===
 
 Contributors: gandhihitesh9
-Plugin Name:  Post Meta Data Manager For WordPress
+Plugin Name:  Post Meta Data Manager
 Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
@@ -19,7 +19,7 @@ Author URI: http://www.wpexpertplugins.com/contact-us/
 
 **Need some help to view your post meta or custom fields?**
 
-Post Meta Data Manager For WordPress plugin displays all post meta or custom fields keys and their values in a metabox at the bottom of post editing.
+Post Meta Data Manager plugin displays all post meta or custom fields keys and their values in a metabox at the bottom of post editing.
 
 Awesome thing is there are no plugin settings.
 You just need to install and activate the plugin by yourself.
@@ -36,24 +36,18 @@ You just need to install and activate the plugin by yourself.
 
 = Contributing =
 
-* report bugs and suggest features on [GitHub](https://github.com/gandhihitesh9/post-meta-data-manager-for-wordPress) or [WordPress Support Forum]((https://wordpress.org/support/plugin/post-meta-data-manager-for-wordpress))
+* report bugs and suggest features on [GitHub](https://github.com/gandhihitesh9/post-meta-data-manager) or [WordPress Support Forum]((https://wordpress.org/support/plugin/post-meta-data-manager))
 
 == Installation ==
 
 The plugin is simple to install:
 
- * Download post-meta-data-manager-for-wordpress.zip
+ * Download post-meta-data-manager.zip
  * Unzip
- * Upload post-meta-data-manager-for-wordpress directory to your /wp-content/plugins directory
- * Activate the "Post Meta Data Manager For WordPress" list plugin through the 'Plugins' menu in WordPress.
-
-
-== Screenshots ==
-
-1. Add to cart button labels & links settings page.
-2. Single product page
+ * Upload post-meta-data-manager directory to your /wp-content/plugins directory
+ * Activate the "Post Meta Data Manager" list plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
 
-= 1.0 - 2021-08-14 =
+= 1.0 - 2021-08-16 =
 * Initial release.

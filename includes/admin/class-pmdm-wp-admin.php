@@ -7,7 +7,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * Manage Admin Panel Class
  *
- * @package Post Meta Data Manager For WordPress
+ * @package Post Meta Data Manager
  * @since 1.0
  */
 
@@ -27,7 +27,7 @@ class Pmdm_Wp_Admin {
 	*
 	* Add Meta Box in Posts, Pages and CPT
 	*
-	* @package Post Meta Data Manager For WordPress
+	* @package Post Meta Data Manager
 	* @since 1.0
 	*/
 	public function pmdm_wp_add_meta_boxes ($post_type, $post) {
@@ -60,7 +60,7 @@ class Pmdm_Wp_Admin {
 	*
 	* Dialay Meta data in Meta box in Posts, Pages and CPT
 	*
-	* @package Post Meta Data Manager For WordPress
+	* @package Post Meta Data Manager
 	* @since 1.0
 	*/
 
@@ -160,7 +160,7 @@ class Pmdm_Wp_Admin {
 	/**
 	* Delete Meta Ajax
 	*
-	* @package Post Meta Data Manager For WordPress
+	* @package Post Meta Data Manager
 	* @since 1.0
 	*/
 
@@ -188,7 +188,7 @@ class Pmdm_Wp_Admin {
 	/**
 	* print recursive input box using this function
 	*
-	* @package Post Meta Data Manager For WordPress
+	* @package Post Meta Data Manager
 	* @since 1.0
 	*/
 	public function pmdm_wp_get_recursively_inputs($meta_main_key, $get_meta_field_values, $level_key = array()){
@@ -236,7 +236,7 @@ class Pmdm_Wp_Admin {
 	/**
 	* save post meta data using approprite key
 	*
-	* @package Post Meta Data Manager For WordPress
+	* @package Post Meta Data Manager
 	* @since 1.0
 	*/
 	public function pmdm_wp_change_post_meta(){
@@ -262,7 +262,7 @@ class Pmdm_Wp_Admin {
 	/**
 	 * Adding Hooks
 	 *
-	 * @package Post Meta Data Manager For WordPress
+	 * @package Post Meta Data Manager
 	 * @since 1.0
 	 */
 	function add_hooks(){
