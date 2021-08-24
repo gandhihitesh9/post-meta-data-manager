@@ -83,4 +83,5 @@ div.dataTables_wrapper div.dataTables_length select {
   margin-top: 15px;
   font-size: 16px;
   font-weight: bolder;
+  cursor: pointer;
 }

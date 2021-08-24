@@ -45,9 +45,9 @@ class Pmdm_Wp_Admin {
 		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
 			return;
 		}
-
+		
 		$metabox_id      = 'pmdm-wp';
-		$metabox_title   = __( 'Post Metadata Manager', 'pmdm_wp' );
+		$metabox_title   = esc_html__( 'Post Metadata Manager', 'pmdm_wp' );
 		$metabox_screen  = $post_type;
 		$metabox_context = 'normal';
 		$metabox_priority    = 'low';
@@ -77,9 +77,9 @@ class Pmdm_Wp_Admin {
 		<table id="pmdm-wp-table" class="display" style="width:100%">
 	        <thead>
 	            <tr>
-	                <th><?php echo __( 'Key', 'pmdm_wp' ); ?></th>
-	                <th><?php echo __( 'Value', 'pmdm_wp' ); ?></th>
-	                <th><?php echo __( 'Action', 'pmdm_wp' ); ?></th>
+	                <th><?php echo esc_html__( 'Key', 'pmdm_wp' ); ?></th>
+	                <th><?php echo esc_html__( 'Value', 'pmdm_wp' ); ?></th>
+	                <th><?php echo esc_html__( 'Action', 'pmdm_wp' ); ?></th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -104,12 +104,12 @@ class Pmdm_Wp_Admin {
 							<td><?php echo esc_html( $meta_key ); ?></td>
 							<td><?php echo esc_html( var_export( $value, true ) ); ?></td>
 							<td>
-								<a href="javascript:;" data-id="<?php echo $meta_key; ?>" id="edit-<?php echo $meta_key; ?>" class="edit-meta"><?php echo __( 'Edit', 'pmdm_wp' ); ?></a> 
+								<a href="javascript:;" data-id="<?php echo $meta_key; ?>" id="edit-<?php echo $meta_key; ?>" class="edit-meta"><?php echo esc_html__( 'Edit', 'pmdm_wp' ); ?></a> 
 
 								<div id="javascript:;" class="modal-window">
 									<div>
 										<a href="javascript:;" title="Close" class="modal-close">x</a>
-										<h1><strong><?php echo __( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo $meta_key; ?></h1>
+										<h1><strong><?php echo esc_html__( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo $meta_key; ?></h1>
 										<div class="model-body">
 											<form method="post" action="">
 											<?php wp_nonce_field( 'change_post_meta_action', 'change_post_meta_field' ); ?>
@@ -123,15 +123,15 @@ class Pmdm_Wp_Admin {
 												}else{
 													?>
 														<div class="input_wrapper">
-															<p class="display_label_key">Key: <strong><?php echo $meta_key; ?></strong></p>
-															<input type="text" name="<?php echo $meta_key; ?>" class="input_box" value="<?php echo $get_meta_field_values; ?>" />
+															<p class="display_label_key">Key: <strong><?php echo esc_html($meta_key); ?></strong></p>
+															<input type="text" name="<?php echo esc_html($meta_key); ?>" class="input_box" value="<?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?>" />
 														</div>
 													<?php
 												}
 											?>
-												<input type="hidden" value="<?php echo $post->ID; ?>" name="current_post_id" />
+												<input type="hidden" value="<?php echo esc_html($post->ID); ?>" name="current_post_id" />
 
-												<input type="submit" value="Change" class="change_btn" />
+												<input type="submit" value="<?php echo esc_html__( 'Change', 'pmdm_wp' ); ?>" class="change_btn" />
 
 											</form>
 										</div>
@@ -139,7 +139,7 @@ class Pmdm_Wp_Admin {
 								</div>
 
 								| 
-								<a href="javascript:;" data-id="<?php echo $meta_key; ?>"  id="delete-<?php echo $meta_key; ?>" class="delete-meta"><?php echo __( 'Delete', 'pmdm_wp' ); ?></a>
+								<a href="javascript:;" data-id="<?php echo esc_html($meta_key); ?>"  id="delete-<?php echo ($meta_key); ?>" class="delete-meta"><?php echo esc_html__( 'Delete', 'pmdm_wp' ); ?></a>
 							</td>
 						</tr>
 			
@@ -167,18 +167,18 @@ class Pmdm_Wp_Admin {
 	public function pmdm_wp_ajax_delete_meta() {
 		if(isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id']) {
 
-			$post_id = $_POST['post_id'];
-			$meta_id = $_POST['meta_id'];
+			$post_id = intval($_POST['post_id']);
+			$meta_id = intval($_POST['meta_id']);
 
 			delete_post_meta($post_id, $meta_id);
 
 			wp_send_json_success(
-				array('msg' => __('Meta successfully deleted', 'pmdm_wp'))
+				array('msg' => esc_html__('Meta successfully deleted', 'pmdm_wp'))
 			);
 
 		} else{
 			wp_send_json_error(
-				array('msg' => __('There is something worong! Please try again', 'pmdm_wp'))
+				array('msg' => esc_html__('There is something worong! Please try again', 'pmdm_wp'))
 			);
 		}
 
@@ -215,8 +215,8 @@ class Pmdm_Wp_Admin {
 					$display_label .= "=>".$gmfvk;
 					?>
 						<div class="input_wrapper">
-							<p class="display_label_key">Key: <strong><?php echo $display_label; ?></strong></p>
-							<input type="text" name="<?php echo $input_name; ?>" class="input_box" value="<?php echo $gmfvv; ?>" />
+							<p class="display_label_key">Key: <strong><?php echo esc_html($display_label); ?></strong></p>
+							<input type="text" name="<?php echo $input_name; ?>" class="input_box" value="<?php echo htmlentities($gmfvv, ENT_QUOTES); ?>" />
 						</div>
 					<?php
 					
@@ -226,7 +226,7 @@ class Pmdm_Wp_Admin {
 			}
 		}else{
 			?>
-				<input type="text" name="<?php echo $meta_main_key; ?>" value="<?php echo $get_meta_field_values; ?>" /> <br/>
+				<input type="text" name="<?php echo $meta_main_key; ?>" value="<?php echo htmlentities($get_meta_field_values, ENT_QUOTES); ?>" /> <br/>
 			<?php
 		}
 		
@@ -245,19 +245,68 @@ class Pmdm_Wp_Admin {
 			
 			if(!empty($_POST)){
 				
-				
 				foreach($_POST as $pk => $pv){
 					if($pk == "change_post_meta_field" || $pk == "_wp_http_referer" || $pk == "current_post_id"){
 						continue;
 					}
+					if(is_array($pv)){
+						$pv = $this->pmdm_wp_escape_slashes_deep($pv);
+					}else{
+						$pv = wp_kses_post($pv);
+					}
 					
-					update_post_meta($_POST["current_post_id"], $pk, $pv);
+					update_post_meta(intval($_POST["current_post_id"]), $pk, $pv);
 
 				}
 			}
 		} 
 
 	}
+	/**
+	* Strip Slashes From Array
+	*
+	* @package Post Meta Data Manager
+	* @since 1.0
+	*/
+	public function pmdm_wp_escape_slashes_deep($data = array(), $flag=false, $limited = false){
+		
+		if( $flag != true ) {
+			
+			$data = $this->pmdm_wp_nohtml_kses($data);
+			
+		} else {
+			
+			if( $limited == true ) {
+				$data = wp_kses_post( $data );
+			}
+			
+		}
+		$data = stripslashes_deep($data);
+		return $data;
+	}
+
+	/**
+	 * Strip Html Tags 
+	 * 
+	 * It will sanitize text input (strip html tags, and escape characters)
+	 * 
+	 * @package Post Meta Data Manager
+	 * @since 1.0
+	 */
+	public function pmdm_wp_nohtml_kses($data = array()) {
+		
+		
+		if ( is_array($data) ) {
+			
+			$data = array_map(array($this,'pmdm_wp_nohtml_kses'), $data);
+			
+		} elseif ( is_string( $data ) ) {
+			
+			$data = wp_kses_post($data);
+		}
+		
+		return $data;
+	}	
 
 	/**
 	 * Adding Hooks
