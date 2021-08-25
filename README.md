@@ -24,7 +24,7 @@ You just need to install and activate the plugin by yourself.
 
 # Contributing
 
-* report bugs and suggest features on [GitHub](https://github.com/gandhihitesh9/post-meta-data-manager) or [WordPress Support Forum]((https://wordpress.org/support/plugin/post-meta-data-manager))
+* report bugs and suggest features on [GitHub](https://github.com/gandhihitesh9/post-meta-data-manager) or [WordPress Support Forum](https://wordpress.org/support/plugin/post-meta-data-manager)
 
 # Installation
 
