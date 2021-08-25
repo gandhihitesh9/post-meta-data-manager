@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
 		    { orderable: false },
 		    { 	
 				orderable: false,
-				"width": "10%" 
+				"width": "20%" 
 			}
 		  ]
     });

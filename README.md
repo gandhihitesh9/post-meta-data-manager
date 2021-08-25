@@ -1,7 +1,7 @@
 # Post Meta Data Manager
 Post Meta Data Manager
 
-== Description ==
+# Description
 **Tired of changing values of hidden post meta or custom post meta through database or coding?**
 **Then you have landed on Correct wordpress plugin.**
 
@@ -12,7 +12,7 @@ Post Meta Data Manager plugin displays all post meta or custom fields keys and t
 Awesome thing is there are no plugin settings.
 You just need to install and activate the plugin by yourself.
 
-= Stunning Features: =
+# Stunning Features:
 
 * You can search & replace that values from edit pages and posts.
 * You can sort key column by ascending and descending orders.
@@ -22,11 +22,11 @@ You just need to install and activate the plugin by yourself.
 * Do you have an idea or want to some enhancement then just contact me.
 * [Feature requests](http://www.wpexpertplugins.com/contact-us/)
 
-= Contributing =
+# Contributing
 
 * report bugs and suggest features on [GitHub](https://github.com/gandhihitesh9/post-meta-data-manager) or [WordPress Support Forum]((https://wordpress.org/support/plugin/post-meta-data-manager))
 
-== Installation ==
+# Installation
 
 The plugin is simple to install:
 
