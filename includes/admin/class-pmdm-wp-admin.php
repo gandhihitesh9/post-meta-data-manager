@@ -122,15 +122,15 @@ class Pmdm_Wp_Admin {
 													
 												}else{
 
-													$value_len = strlen($get_meta_field_values);
+													$get_meta_field_values_len = strlen($get_meta_field_values);
 													?>
 														<div class="input_wrapper">
 															<p class="display_label_key">Key: <strong><?php echo esc_html($meta_key); ?></strong></p>
 
-															<?php if($value_len > 20) { ?>
-																<textarea name="<?php echo esc_html($meta_key); ?>" rows="10" cols="60"><?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?></textarea>
+															<?php if($get_meta_field_values_len > 20) { ?>
+																<textarea name="<?php echo esc_html($meta_key); ?>" rows="10"><?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?></textarea>
 															<?php } else { ?>
-															<input type="text" name="<?php echo esc_html($meta_key); ?>" class="input_box" value="<?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?>" />
+																<input type="text" name="<?php echo esc_html($meta_key); ?>" class="input_box" value="<?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?>" />
 														<?php } ?> 
 
 														</div>
@@ -222,7 +222,7 @@ class Pmdm_Wp_Admin {
 					$input_name .= "[".$gmfvk."]";
 					$display_label .= "=>".$gmfvk;
 					?>
-						<div class="input_wrapper">
+						<div class="input_wrapper input_wrapper_arr">
 							<p class="display_label_key">Key: <strong><?php echo esc_html($display_label); ?></strong></p>
 							<input type="text" name="<?php echo $input_name; ?>" class="input_box" value="<?php echo htmlentities($gmfvv, ENT_QUOTES); ?>" />
 						</div>

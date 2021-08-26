@@ -12,7 +12,12 @@ div.dataTables_wrapper div.dataTables_length select {
 	opacity: 0.4;
 }
 
-
+.input_wrapper:not(.input_wrapper_arr){
+  width: 100%;
+}
+.input_wrapper textarea {
+  width: 100%;
+}
 
 
 .modal-window {
