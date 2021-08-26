@@ -6,7 +6,7 @@ Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC tested up to: 4.8.0
@@ -47,7 +47,14 @@ The plugin is simple to install:
  * Upload post-meta-data-manager directory to your /wp-content/plugins directory
  * Activate the "Post Meta Data Manager" list plugin through the 'Plugins' menu in WordPress.
 
+== Screenshots ==
+1. List of keys with search, pagination, limit per page, sorting by key column.
+2. Edit single field value.
+3. Edit multi fields value.
+
 == Changelog ==
+= 1.0.1 - 2021-08-26 =
+* Added support for long string meta values from input type text to textarea tag.
 
 = 1.0 - 2021-08-16 =
 * Initial release.
