@@ -121,10 +121,18 @@ class Pmdm_Wp_Admin {
 													$this->pmdm_wp_get_recursively_inputs($meta_key, $get_meta_field_values);
 													
 												}else{
+
+													$value_len = strlen($get_meta_field_values);
 													?>
 														<div class="input_wrapper">
 															<p class="display_label_key">Key: <strong><?php echo esc_html($meta_key); ?></strong></p>
+
+															<?php if($value_len > 20) { ?>
+																<textarea name="<?php echo esc_html($meta_key); ?>" rows="10" cols="60"><?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?></textarea>
+															<?php } else { ?>
 															<input type="text" name="<?php echo esc_html($meta_key); ?>" class="input_box" value="<?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?>" />
+														<?php } ?>
+
 														</div>
 													<?php
 												}
