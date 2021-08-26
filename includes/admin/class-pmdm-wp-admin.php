@@ -131,7 +131,7 @@ class Pmdm_Wp_Admin {
 																<textarea name="<?php echo esc_html($meta_key); ?>" rows="10" cols="60"><?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?></textarea>
 															<?php } else { ?>
 															<input type="text" name="<?php echo esc_html($meta_key); ?>" class="input_box" value="<?php echo htmlspecialchars($get_meta_field_values, ENT_QUOTES); ?>" />
-														<?php } ?>
+														<?php } ?> 
 
 														</div>
 													<?php
