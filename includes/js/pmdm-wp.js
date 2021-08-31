@@ -9,6 +9,23 @@ jQuery(document).ready(function($) {
 			}
 		  ]
     });
+    /**
+	 * User meta datatable
+	 *
+	 *
+	 * @package Post Meta Data Manager
+	 * @since 1.0.2
+	 */
+	jQuery('#pmdm_wp_user_table').DataTable( {
+    	 columns: [
+		    null,
+		    { orderable: false },
+		    { 	
+				orderable: false,
+				"width": "20%" 
+			}
+		  ]
+    });
 
   	/* escape close */
   	jQuery(document).keydown(function(event) { 
@@ -59,6 +76,49 @@ jQuery(document).ready(function($) {
 	            	if(response.success) {
 	            		table.row( jQuery("#"+btn_id).parents("tr") ).remove().draw();
 
+	            	} else {
+	            		alert(response.data.msg);
+	            	}
+	               
+	            }
+	        });
+	        
+	    }
+	    return false;
+
+	});
+	/**
+	 * User meta datatable
+	 *
+	 *
+	 * @package Post Meta Data Manager
+	 * @since 1.0.2
+	 */
+    jQuery('#pmdm_wp_user_metabox').on('click', 'td .delete-meta', function (e){
+	    e.preventDefault();
+
+	    var table = jQuery('#pmdm_wp_user_table').DataTable();	               
+
+	    var meta_id = jQuery(this).attr("data-id");
+	    var btn_id = jQuery(this).attr("id");
+	    var user_ID = jQuery("#user_ID").val();
+
+	    
+
+	     if (confirm("Are you sure want to delete this Meta?")) {
+	        
+	     	jQuery.ajax({
+	            url: pmdm_wp_ajax.ajax_url,
+	            type: 'post',
+	            dataType: 'json',
+	            data: {
+	                action: 'pmdm_wp_delete_user_meta',
+	                user_ID : user_ID,
+	                meta_id: meta_id,
+	            },
+	            success: function (response) {
+	            	if(response.success) {
+	            		table.row( jQuery("#"+btn_id).parents("tr") ).remove().draw();
 	            	} else {
 	            		alert(response.data.msg);
 	            	}

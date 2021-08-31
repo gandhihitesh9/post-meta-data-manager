@@ -27,16 +27,17 @@ class Pmdm_Wp_Scripts {
 	 * @since 1.0
 	 */
 	public function pmdm_wp_admin_scripts( $hook ){
-
 		
-		if($hook != "post.php"){
+		if($hook != "post.php" && $hook != "user-edit.php"){
 			return;
 		}
 		global $post;
-
-		if ( !isset($post->post_type) || (isset($post->post_status) && $post->post_status == "auto-draft") ) {
-	        return;
-	    }
+		
+		if($post != NULL){
+			if ( !isset($post->post_type) || (isset($post->post_status) && $post->post_status == "auto-draft") ) {
+				return;
+			}
+		}
 		
 		
 		// Styles

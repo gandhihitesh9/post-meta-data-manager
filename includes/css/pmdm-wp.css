@@ -77,6 +77,7 @@ div.dataTables_wrapper div.dataTables_length select {
 .display_label_key {
   padding-top: 5px;
   margin: 0;
+  word-break: break-all;
 }
 .input_wrapper {
   float: left;
@@ -89,4 +90,33 @@ div.dataTables_wrapper div.dataTables_length select {
   font-size: 16px;
   font-weight: bolder;
   cursor: pointer;
+}
+.user_custom_metabox .postbox {
+  position: relative;
+  min-width: 255px;
+  border: 1px solid #c3c4c7;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0;
+  line-height: 1;
+}
+.user_custom_metabox .postbox-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #c3c4c7;
+}
+.user_custom_metabox .postbox-header h2 {
+  font-size: 14px;
+  padding: 8px 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+.user_custom_metabox .inside {
+  padding: 0 12px 12px;
+  line-height: 1.4;
+  font-size: 13px;
+  position: relative;
+  margin: 6px 0 0 0;
 }
