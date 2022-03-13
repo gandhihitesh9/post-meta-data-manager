@@ -59,7 +59,7 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
-= 1.0.2 - 2022-03-13 =
+= 1.0.3 - 2022-03-13 =
 * Added taxonomy metaboxes
 
 
