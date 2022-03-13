@@ -6,7 +6,7 @@ Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC tested up to: 4.8.0
@@ -26,6 +26,9 @@ You just need to install and activate the plugin by yourself.
 
 **Boom! Added User Meta Manager**
 * Now you can handle all user meta fields values from user edit page.
+
+**Added Taxonomoies Meta Manager**
+* Now you can handle all term or taxonomies meta fields values from term edit page.
 
 = Stunning Features: =
 
@@ -56,6 +59,10 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
+= 1.0.2 - 2022-03-13 =
+* Added taxonomy metaboxes
+
+
 = 1.0.2 - 2021-08-31 =
 * Move all html code into seprate file.
 * Added meta box for user edit and listings of all user meta keys.

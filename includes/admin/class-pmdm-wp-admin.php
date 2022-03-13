@@ -296,9 +296,126 @@ class Pmdm_Wp_Admin {
 	 * @since 1.0.2
 	 */
 	public function pmdm_wp_user_metadata_box($user) {
-		$user_meta = get_user_meta( $user->ID );
+		global $current_screen;
+		if($current_screen->id == "user-edit"){
+			$user_meta = get_user_meta( $user->ID );
 		
-		require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_wp_display_user_metadata_html.php");
+			require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_wp_display_user_metadata_html.php");
+		}
+		
+	}
+
+	/**
+	 * Display meta box in term edit page.
+	 * 
+	 * @package Post Meta Data Manager
+	 * @since 1.0.3
+	 */
+	public function pmdm_wp_taxonomy_metadata_box( $term ) {
+
+		$term_meta = get_term_meta( $term->term_id );
+		// update_term_meta
+		// delete_term_meta
+		
+		require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_wp_display_term_metadata_html.php");
+		
+		
+	}
+	/**
+	 * Add meta box action for all taxonomies.
+	 * 
+	 * @package Post Meta Data Manager
+	 * @since 1.0.3
+	 */
+	public function pmdm_add_html_for_all_taxonomy() {
+		$all_taxonomies = get_taxonomies();
+		if(!empty($all_taxonomies)){
+			foreach($all_taxonomies as $taxk => $taxv){
+				add_action( $taxk . '_edit_form', array($this, 'pmdm_wp_taxonomy_metadata_box'), 99 );
+			}
+		}
+	}
+
+
+	/**
+	* Save taxonomy meta data using approprite key
+	*
+	* @package Post Meta Data Manager
+	* @since 1.0.3
+	*/
+	public function pmdm_wp_change_taxonomy_meta(){
+		
+		
+		if (isset( $_POST['change_term_meta_field'] ) && wp_verify_nonce( $_POST['change_term_meta_field'], 'change_term_meta_action' ) ) {
+			if(!empty($_POST)){
+				$disallow_term_key_array = apply_filters(PMDM_WP_PREFIX. "_disallow_term_keys", array(
+					"action",
+					"tag_ID",
+					"taxonomy",
+					"_wp_original_http_referer",
+					"_wpnonce",
+					"_wp_http_referer",
+					"name",
+					"slug",
+					"parent",
+					"description",
+					"display_type",
+					"product_cat_thumbnail_id",
+					"pmdm_wp_term_table_length",
+					"change_term_meta_field",
+					"current_term_id",
+				));
+				foreach($_POST as $pk => $pv){
+					if(in_array($pk, $disallow_term_key_array)){
+						continue;
+					}
+					if(is_array($pv)){
+						$pv = $this->pmdm_wp_escape_slashes_deep($pv);
+					}else{
+						$pv = wp_kses_post($pv);
+					}
+					
+					update_term_meta(intval($_POST["current_term_id"]), $pk, $pv);
+
+				}
+
+				if(isset($_SERVER["HTTP_REFERER"]) && !empty($_SERVER["HTTP_REFERER"])){
+					wp_redirect($_SERVER["HTTP_REFERER"]);
+					die;
+				}
+
+
+			}
+		} 
+
+	}
+
+	/**
+	* Delete term Meta Ajax
+	*
+	* @package Post Meta Data Manager
+	* @since 1.0.3
+	*/
+
+	public function pmdm_wp_delete_term_meta() {
+		if(isset($_POST) && !empty($_POST['term_id']) && $_POST['meta_id']) {
+
+			$term_id = intval($_POST['term_id']);
+			$meta_id = esc_html($_POST['meta_id']);
+
+			delete_term_meta($term_id, $meta_id);
+			
+			wp_send_json_success(
+				array('msg' => esc_html__('Meta successfully deleted', 'pmdm_wp'))
+			);
+
+		} else{
+			wp_send_json_error(
+				array('msg' => esc_html__('There is something worong! Please try again', 'pmdm_wp'))
+			);
+		}
+
+		die();
 	}
 
 
@@ -310,21 +427,27 @@ class Pmdm_Wp_Admin {
 	 */
 	function add_hooks(){
 
-		// add data table
+		// post details page hooks
 		add_action( 'add_meta_boxes', array( $this, 'pmdm_wp_add_meta_boxes' ), 1000, 2 );
+		add_action( "admin_init", array( $this, "pmdm_wp_change_post_meta"), 10);
 
-		// Delete Ajax
 		add_action("wp_ajax_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta" ) ) ;
 		add_action( "wp_ajax_nopriv_pmdm_wp_delete_meta", array( $this, "pmdm_wp_ajax_delete_meta") );
 		
+
+		// user details page hooks
+		add_action('edit_user_profile', array($this, 'pmdm_wp_user_metadata_box'), 99);
+		add_action('admin_init', array($this, 'pmdm_wp_change_user_meta'), 11);
 		add_action("wp_ajax_pmdm_wp_delete_user_meta", array( $this, "pmdm_wp_delete_user_meta" ) ) ;
 		add_action( "wp_ajax_nopriv_pmdm_wp_delete_user_meta", array( $this, "pmdm_wp_delete_user_meta") );
 		
-		add_action( "admin_init", array( $this, "pmdm_wp_change_post_meta") );
-
 		
-		add_action('edit_user_profile', array($this, 'pmdm_wp_user_metadata_box'), 99);
-		add_action('admin_init', array($this, 'pmdm_wp_change_user_meta'));
+		// taxonomy details page hooks
+		add_action("admin_init", array($this, "pmdm_add_html_for_all_taxonomy"), 99);
+		add_action('admin_init', array($this, 'pmdm_wp_change_taxonomy_meta'), 12);
+		add_action("wp_ajax_pmdm_wp_delete_term_meta", array( $this, "pmdm_wp_delete_term_meta" ) ) ;
+		add_action( "wp_ajax_nopriv_pmdm_wp_delete_term_meta", array( $this, "pmdm_wp_delete_term_meta") );
+		
 
 	}
 }
