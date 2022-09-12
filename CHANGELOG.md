@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## 1.1.0 - 2022-09-12
+### Fixed
+* Fix Woocommerce Product terms add edit page not saving default fields data.
+
 ## 1.0.2 - 2021-08-31
 ### Added
 - Move all html code into seprate file.

@@ -12,6 +12,12 @@ Post Meta Data Manager plugin displays all post meta or custom fields keys and t
 Awesome thing is there are no plugin settings.
 You just need to install and activate the plugin by yourself.
 
+**Boom! Added User Meta Manager**
+* Now you can handle all user meta fields values from user edit page.
+
+**Added Taxonomoies Meta Manager**
+* Now you can handle all term or taxonomies meta fields values from term edit page.
+
 # Stunning Features:
 
 * You can search & replace that values from edit pages and posts.
