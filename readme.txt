@@ -6,7 +6,7 @@ Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
 Tested up to: 5.8
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC tested up to: 4.8.0
@@ -59,6 +59,9 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
+= 1.1.0 - 2022-09-12 =
+* Fix Woocommerce Product terms add edit page not saving default fields data.
+
 = 1.0.3 - 2022-03-13 =
 * Added taxonomy metaboxes
 

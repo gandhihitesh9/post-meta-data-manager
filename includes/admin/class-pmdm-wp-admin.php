@@ -348,6 +348,7 @@ class Pmdm_Wp_Admin {
 		
 		if (isset( $_POST['change_term_meta_field'] ) && wp_verify_nonce( $_POST['change_term_meta_field'], 'change_term_meta_action' ) ) {
 			if(!empty($_POST)){
+				
 				$disallow_term_key_array = apply_filters(PMDM_WP_PREFIX. "_disallow_term_keys", array(
 					"action",
 					"tag_ID",
@@ -379,10 +380,10 @@ class Pmdm_Wp_Admin {
 
 				}
 
-				if(isset($_SERVER["HTTP_REFERER"]) && !empty($_SERVER["HTTP_REFERER"])){
+				/* if(isset($_SERVER["HTTP_REFERER"]) && !empty($_SERVER["HTTP_REFERER"])){
 					wp_redirect($_SERVER["HTTP_REFERER"]);
 					die;
-				}
+				} */
 
 
 			}

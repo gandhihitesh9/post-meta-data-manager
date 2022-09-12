@@ -9,6 +9,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package Post Meta Data Manager
  * @since 1.0.3
  */
+// update_term_meta($term->term_id, "pa_color_meta_key", "pa_color_meta_value");
 ?><div id="pmdm_wp_term_metabox" class="postbox user_custom_metabox">
     <input type="hidden" id="term_id" value="<?php echo $term->term_id; ?>">
     <div class="postbox-header">
