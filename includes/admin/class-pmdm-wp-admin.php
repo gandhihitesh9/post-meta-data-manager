@@ -297,7 +297,7 @@ class Pmdm_Wp_Admin {
 	 */
 	public function pmdm_wp_user_metadata_box($user) {
 		global $current_screen;
-		if($current_screen->id == "user-edit"){
+		if( ($current_screen->id == "user-edit") || ($current_screen->id == "profile") ){
 			$user_meta = get_user_meta( $user->ID );
 		
 			require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_wp_display_user_metadata_html.php");
@@ -438,6 +438,7 @@ class Pmdm_Wp_Admin {
 
 		// user details page hooks
 		add_action('edit_user_profile', array($this, 'pmdm_wp_user_metadata_box'), 99);
+		add_action('show_user_profile', array($this, 'pmdm_wp_user_metadata_box'), 99);
 		add_action('admin_init', array($this, 'pmdm_wp_change_user_meta'), 11);
 		add_action("wp_ajax_pmdm_wp_delete_user_meta", array( $this, "pmdm_wp_delete_user_meta" ) ) ;
 		add_action( "wp_ajax_nopriv_pmdm_wp_delete_user_meta", array( $this, "pmdm_wp_delete_user_meta") );
