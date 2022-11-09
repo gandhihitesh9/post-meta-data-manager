@@ -59,6 +59,10 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
+
+= 1.1.3 - 2022-11-09 = 
+* Applied max-height for bigger model.
+
 = 1.1.2 - 2022-11-09 = Fixed issue
 * Fixed issue when object stored in key - https://wordpress.org/support/topic/php-fatal-error-324/
 
