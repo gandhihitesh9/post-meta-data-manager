@@ -120,3 +120,6 @@ div.dataTables_wrapper div.dataTables_length select {
   position: relative;
   margin: 6px 0 0 0;
 }
+#pmdm_wp_user_table td {
+  word-break: break-all;
+}
