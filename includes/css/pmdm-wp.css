@@ -1,122 +1,142 @@
 div.dataTables_wrapper div.dataTables_length select {
-	background-image: none !important;
-	-webkit-appearance : auto !important;
-} 
-.dataTables_filter input {
-	line-height: normal !important;
-}
-#pmdm-wp-table th {
-	text-align: left;
-}
-.blur-back {
-	opacity: 0.4;
+    background-image: none !important;
+    -webkit-appearance: auto !important;
 }
 
-.input_wrapper:not(.input_wrapper_arr){
-  width: 100%;
+.dataTables_filter input {
+    line-height: normal !important;
 }
+
+#pmdm-wp-table th {
+    text-align: left;
+}
+
+.blur-back {
+    opacity: 0.4;
+}
+
+.input_wrapper:not(.input_wrapper_arr) {
+    width: 100%;
+}
+
 .input_wrapper textarea {
-  width: 100%;
+    width: 100%;
 }
 
 
 .modal-window {
-  position: fixed;
-  background-color: #f1f1f1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0.4;
-  pointer-events: none;
-  transition: all 0.3s;
-}
-.modal-window.open {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 99999;
+    position: fixed;
+    background-color: #f1f1f1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0.4;
+    pointer-events: none;
+    transition: all 0.3s;
 }
 
-.modal-window > div {
-  width: 400px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 2em;
-  background: white;
-  border-radius: 6px
+.modal-window.open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 99999;
 }
+
+.modal-window>div {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: white;
+    border-radius: 6px;
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
 .modal-window header {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .modal-window h1 {
-  font-size: 150%;
-  margin: 0 0 15px;
+    font-size: 150%;
+    margin: 0 0 15px;
 }
 
 .modal-close {
-  color: #aaa;
-  line-height: 20px;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 20px;
-  text-decoration: none;
-  border: 1px solid;
-  border-radius: 6px;
+    color: #aaa;
+    line-height: 20px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 20px;
+    text-decoration: none;
+    border: 1px solid;
+    border-radius: 6px;
 }
+
 .modal-close:hover {
-  color: black;
+    color: black;
 }
 
 .display_label_key {
-  padding-top: 5px;
-  margin: 0;
-  word-break: break-all;
+    padding-top: 5px;
+    margin: 0;
+    word-break: break-all;
 }
+
 .input_wrapper {
-  float: left;
-  margin-right: 5px;
+    float: left;
+    margin-right: 5px;
 }
+
 .change_btn {
-  float: left;
-  width: 100%;
-  margin-top: 15px;
-  font-size: 16px;
-  font-weight: bolder;
-  cursor: pointer;
+    float: left;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bolder;
+    cursor: pointer;
 }
+
 .user_custom_metabox .postbox {
-  position: relative;
-  min-width: 255px;
-  border: 1px solid #c3c4c7;
-  box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
-  background: #fff;
-  margin-bottom: 20px;
-  padding: 0;
-  line-height: 1;
+    position: relative;
+    min-width: 255px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 0;
+    line-height: 1;
 }
-.user_custom_metabox .postbox-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #c3c4c7;
+
+.user_custom_metabox .postbox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #c3c4c7;
 }
+
 .user_custom_metabox .postbox-header h2 {
-  font-size: 14px;
-  padding: 8px 12px;
-  margin: 0;
-  line-height: 1.4;
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
 }
+
 .user_custom_metabox .inside {
-  padding: 0 12px 12px;
-  line-height: 1.4;
-  font-size: 13px;
-  position: relative;
-  margin: 6px 0 0 0;
+    padding: 0 12px 12px;
+    line-height: 1.4;
+    font-size: 13px;
+    position: relative;
+    margin: 6px 0 0 0;
+}
+
+#pmdm_wp_user_table td {
+    word-break: break-all;
 }

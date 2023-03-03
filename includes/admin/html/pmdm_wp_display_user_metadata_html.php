@@ -49,7 +49,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
                                 <td>
                                     <a href="javascript:;" data-id="<?php echo $meta_key; ?>" id="edit-<?php echo $meta_key; ?>" class="edit-meta"><?php echo esc_html__( 'Edit', 'pmdm_wp' ); ?></a> 
 
-                                    <div id="javascript:;" class="modal-window">
+                                    <div id="user_model_window_<?php echo $meta_key; ?>" class="modal-window">
                                         <div>
                                             <a href="javascript:;" title="Close" class="modal-close">x</a>
                                             <h1><strong><?php echo esc_html__( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo $meta_key; ?></h1>
@@ -64,7 +64,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
                                                         $this->pmdm_wp_get_recursively_inputs($meta_key, $get_meta_field_values);
                                                         
                                                     }else{
-                                                        
+                                                        if (is_string($get_meta_field_values)) {
                                                         $get_meta_field_values_len = strlen($get_meta_field_values);
                                                         ?>
                                                             <div class="input_wrapper">
@@ -78,6 +78,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
                                                             </div>
                                                         <?php
+                                                        }
                                                     }
                                                 ?>
                                                     <input type="hidden" value="<?php echo esc_html($user->ID); ?>" name="current_user_id" />
