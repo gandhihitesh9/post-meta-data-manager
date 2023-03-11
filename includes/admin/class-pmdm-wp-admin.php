@@ -154,7 +154,7 @@ class Pmdm_Wp_Admin
                     $store_keys = array_merge($level_key, array($gmfvk));
                     $this->pmdm_wp_get_recursively_inputs($meta_main_key, $gmfvv, $store_keys);
                 } else {
-                    if (is_string($gmfvk)) {
+                    if (is_string($gmfvv)) {
                         $input_name = $meta_main_key;
 
                         $display_label = $meta_main_key;
