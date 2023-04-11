@@ -28,7 +28,7 @@ class Pmdm_Wp_Scripts {
 	 */
 	public function pmdm_wp_admin_scripts( $hook ){
 		
-		if($hook != "post.php" &&  $hook != "profile.php" && $hook != "user-edit.php" && $hook != "term.php"){
+		if($hook != "post.php" &&  $hook != "profile.php" && $hook != "user-edit.php" && $hook != "term.php" && $hook != "toplevel_page_pmdm-general-settings"){
 			return;
 		}
 		global $post;

@@ -54,8 +54,20 @@ class Pmdm_Wp_Admin
         $metabox_screen  = $post_type;
         $metabox_context = 'normal';
         $metabox_priority    = 'low';
-
-        add_meta_box($metabox_id, $metabox_title, array($this, 'pmdm_wp_display_post_metadata'), $metabox_screen, $metabox_context, $metabox_priority, array());
+        $pmdm_selected_post_types = get_option("pmdm_selected_post_types");
+        if(empty($pmdm_selected_post_types)){
+            $pmdm_selected_post_types = array(
+                "post",
+                "page",
+                "product",
+                "shop_order",
+                "shop_coupon",
+            );
+        }
+        if(in_array($post_type, $pmdm_selected_post_types)){
+            add_meta_box($metabox_id, $metabox_title, array($this, 'pmdm_wp_display_post_metadata'), $metabox_screen, $metabox_context, $metabox_priority, array());
+        }
+        
     }
 
     /**
@@ -419,6 +431,23 @@ class Pmdm_Wp_Admin
         die();
     }
 
+    public function pmdm_admin_menus(){
+        add_menu_page( 
+            esc_html__('PMDM Settings', 'pmdm_wp'),
+            esc_html__('PMDM Settings', 'pmdm_wp'), 
+            'manage_options', 
+            'pmdm-general-settings', 
+            array($this, "pmdm_general_settings_cb"),
+        );
+    }
+
+    public function pmdm_general_settings_cb(){
+        require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_general_settings_html.php");
+    }
+
+    public function pmdm_register_general_settings_cb(){
+        register_setting( 'pmdm_general_settings_group', 'pmdm_selected_post_types' );
+    }
 
     /**
      * Adding Hooks
@@ -450,6 +479,9 @@ class Pmdm_Wp_Admin
         add_action('admin_init', array($this, 'pmdm_wp_change_taxonomy_meta'), 12);
         add_action("wp_ajax_pmdm_wp_delete_term_meta", array($this, "pmdm_wp_delete_term_meta"));
         add_action("wp_ajax_nopriv_pmdm_wp_delete_term_meta", array($this, "pmdm_wp_delete_term_meta"));
+
+        add_action('admin_menu', array($this, 'pmdm_admin_menus'), 10);
+        add_action( 'admin_init', array($this, 'pmdm_register_general_settings_cb') );
     }
 }
 ?>
