@@ -3,7 +3,7 @@
  * Plugin Name: Post Meta Data Manager
  * Plugin URI: http://www.wpexpertplugins.com/
  * Description: Post Meta management Posts, Pages, Custom Post Types, Users, Taxonomoies.
- * Version: 1.1.3
+ * Version: 1.1.4
  * Author: WpExpertPlugins
  * Text Domain: pmdm_wp
  * Author URI: http://www.wpexpertplugins.com/contact-us/
@@ -22,7 +22,7 @@ if( !defined( 'PMDM_WP_DIR' ) ) {
   define( 'PMDM_WP_DIR', dirname( __FILE__ ) );      // Plugin dir
 }
 if( !defined( 'PMDM_WP_VERSION' ) ) {
-  define( 'PMDM_WP_VERSION', '1.1.3' );      // Plugin Version
+  define( 'PMDM_WP_VERSION', '1.1.4' );      // Plugin Version
 }
 if( !defined( 'PMDM_WP_URL' ) ) {
   define( 'PMDM_WP_URL', plugin_dir_url( __FILE__ ) );   // Plugin url
@@ -45,6 +45,9 @@ if(!defined('PMDM_WP_PREFIX')) {
 if(!defined('PMDM_WP_VAR_PREFIX')) {
   define('PMDM_WP_VAR_PREFIX', '_pmdm_wp_'); // Variable Prefix
 }
+if(!defined('PMDM_HELP_LINK')) {
+    define('PMDM_HELP_LINK', 'http://www.wpexpertplugins.com/contact-us/'); // Variable Prefix
+  }
 
 /**
  * Load Text Domain

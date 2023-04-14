@@ -140,3 +140,7 @@ div.dataTables_wrapper div.dataTables_length select {
 #pmdm_wp_user_table td {
     word-break: break-all;
 }
+
+label.pmdm_selected_post_types_wrapper {
+    width: 25%;
+}

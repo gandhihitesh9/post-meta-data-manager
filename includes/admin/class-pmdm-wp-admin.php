@@ -344,9 +344,21 @@ class Pmdm_Wp_Admin
     public function pmdm_add_html_for_all_taxonomy()
     {
         $all_taxonomies = get_taxonomies();
+        $pmdm_selected_taxonomies = get_option("pmdm_selected_taxonomies");
+        if(empty($pmdm_selected_taxonomies)){
+            $pmdm_selected_taxonomies = array(
+                "category",
+                "post_tag",
+                "product_cat",
+                "product_tag",
+            );
+        }
         if (!empty($all_taxonomies)) {
             foreach ($all_taxonomies as $taxk => $taxv) {
-                add_action($taxk . '_edit_form', array($this, 'pmdm_wp_taxonomy_metadata_box'), 99);
+                if(in_array($taxk, $pmdm_selected_taxonomies)){
+                    add_action($taxk . '_edit_form', array($this, 'pmdm_wp_taxonomy_metadata_box'), 99);
+                }
+                
             }
         }
     }
@@ -432,21 +444,34 @@ class Pmdm_Wp_Admin
     }
 
     public function pmdm_admin_menus(){
+        $parent_page_slug = "pmdm-general-settings";
         add_menu_page( 
             esc_html__('PMDM Settings', 'pmdm_wp'),
             esc_html__('PMDM Settings', 'pmdm_wp'), 
             'manage_options', 
-            'pmdm-general-settings', 
+            $parent_page_slug, 
             array($this, "pmdm_general_settings_cb"),
+        );
+        add_submenu_page(
+            $parent_page_slug,
+            esc_html__('Help', 'pmdm_wp'),
+            esc_html__('Help', 'pmdm_wp'),
+            'manage_options', 
+            'pmdm-help',
+            array($this, "pmdm_help_cb"),
         );
     }
 
     public function pmdm_general_settings_cb(){
         require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_general_settings_html.php");
     }
+    public function pmdm_help_cb(){
+        require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_help_html.php");
+    }
 
     public function pmdm_register_general_settings_cb(){
         register_setting( 'pmdm_general_settings_group', 'pmdm_selected_post_types' );
+        register_setting( 'pmdm_general_settings_group', 'pmdm_selected_taxonomies' );
     }
 
     /**
