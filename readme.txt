@@ -5,8 +5,8 @@ Plugin Name:  Post Meta Data Manager
 Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
-Tested up to: 5.8
-Stable tag: 1.1.3
+Tested up to: 6.1
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC tested up to: 4.8.0
@@ -29,6 +29,8 @@ You just need to install and activate the plugin by yourself.
 
 **Added Taxonomoies Meta Manager**
 * Now you can handle all term or taxonomies meta fields values from term edit page.
+
+**Enabling the display of post meta data manager box by configuring the selected post type.**
 
 = Stunning Features: =
 
@@ -59,6 +61,19 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
+= 1.2.1 - 2023-10-20 = 
+* Vulnerability fixes
+
+= 1.2.0 - 2023-04-15 = 
+* Selection of taxonomoies setting provided.
+
+
+= 1.1.5 - 2023-04-11 = 
+* General Settings page.
+* Provide selection of post types.
+
+= 1.1.4 - 2023-03-11 = 
+* check is string value
 
 = 1.1.3 - 2022-11-09 = 
 * Applied max-height for bigger model.
