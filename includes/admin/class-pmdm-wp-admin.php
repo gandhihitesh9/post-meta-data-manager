@@ -102,7 +102,7 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_ajax_delete_meta()
     {
-        if (isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id'] && current_user_can('administrator')) {
+        if (isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' ) ) {
             
             $meta_value = '';
             $post_id = intval($_POST['post_id']);
@@ -139,7 +139,7 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_delete_user_meta()
     {
-        if (isset($_POST) && !empty($_POST['user_ID']) && $_POST['meta_id'] && current_user_can('administrator')) {
+        if (isset($_POST) && !empty($_POST['user_ID']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' )) {
 
             $user_ID = intval($_POST['user_ID']);
             $meta_id = esc_html($_POST['meta_id']);
@@ -441,7 +441,7 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_delete_term_meta()
     {
-        if (isset($_POST) && !empty($_POST['term_id']) && $_POST['meta_id'] && current_user_can('administrator')) {
+        if (isset($_POST) && !empty($_POST['term_id']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' )) {
 
             $term_value = '';
             $term_id = intval($_POST['term_id']);

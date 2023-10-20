@@ -55,7 +55,12 @@ class Pmdm_Wp_Scripts {
    		wp_register_script('pmdm-wp-script', PMDM_WP_INC_URL . '/js/pmdm-wp.js', array(), time(), true);
    		wp_enqueue_script('pmdm-wp-script');
 
-   		wp_localize_script('pmdm-wp-script', 'pmdm_wp_ajax', array('ajax_url' => admin_url('admin-ajax.php') ));
+        $pmdm_wp_ajax_arr = array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'security' => wp_create_nonce('ajax-security') 
+        );
+
+   		wp_localize_script('pmdm-wp-script', 'pmdm_wp_ajax', $pmdm_wp_ajax_arr);
 	
 	}
 	
