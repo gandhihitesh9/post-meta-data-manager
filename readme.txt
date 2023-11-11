@@ -61,9 +61,12 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
+<<<<<<< HEAD
 = 1.2.2 - 2023-11-11 = 
 * Vulnerability fixes
 
+=======
+>>>>>>> da79b8a7cf70a5e0479ed310dcd6fa551287b817
 = 1.2.1 - 2023-10-20 = 
 * Vulnerability fixes
 

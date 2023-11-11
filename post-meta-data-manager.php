@@ -22,7 +22,7 @@ if( !defined( 'PMDM_WP_DIR' ) ) {
   define( 'PMDM_WP_DIR', dirname( __FILE__ ) );      // Plugin dir
 }
 if( !defined( 'PMDM_WP_VERSION' ) ) {
-  define( 'PMDM_WP_VERSION', '1.2.2' );      // Plugin Version
+	define( 'PMDM_WP_VERSION', '1.2.2' ); 
 }
 if( !defined( 'PMDM_WP_URL' ) ) {
   define( 'PMDM_WP_URL', plugin_dir_url( __FILE__ ) );   // Plugin url
