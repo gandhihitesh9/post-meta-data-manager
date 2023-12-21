@@ -6,7 +6,7 @@ Plugin URI: http://www.wpexpertplugins.com/
 Tags: custom post meta editor, meta fiedls editor, meta, post meta, inspector, custom fields, debug, tools
 Requires at least: 3.0
 Tested up to: 6.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 WC tested up to: 4.8.0
@@ -61,12 +61,14 @@ The plugin is simple to install:
 3. Edit multi fields value.
 
 == Changelog ==
-<<<<<<< HEAD
+
+- 1.2.3 - 2023-12-21
+* Resolved the issue of storing unnecessary metadata.
+* https://wordpress.org/support/topic/plugin-corrupted-post_meta-table/
+
 = 1.2.2 - 2023-11-11 = 
 * Vulnerability fixes
 
-=======
->>>>>>> da79b8a7cf70a5e0479ed310dcd6fa551287b817
 = 1.2.1 - 2023-10-20 = 
 * Vulnerability fixes
 

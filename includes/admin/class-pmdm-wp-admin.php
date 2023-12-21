@@ -235,13 +235,17 @@ class Pmdm_Wp_Admin
                     if ($pk == "change_post_meta_field" || $pk == "_wp_http_referer" || $pk == "current_post_id") {
                         continue;
                     }
-                    if (is_array($pv)) {
-                        $pv = $this->pmdm_wp_escape_slashes_deep($pv);
-                    } else {
-                        $pv = wp_kses_post($pv);
+                    $is_meta_exists = get_post_meta(intval($_POST["current_post_id"]), $pk, true);
+                    if(!empty($is_meta_exists)){
+                        if (is_array($pv)) {
+                            $pv = $this->pmdm_wp_escape_slashes_deep($pv);
+                        } else {
+                            $pv = wp_kses_post($pv);
+                        }
+    
+                        update_post_meta(intval($_POST["current_post_id"]), $pk, $pv);
                     }
-
-                    update_post_meta(intval($_POST["current_post_id"]), $pk, $pv);
+                    
                 }
             }
         }
