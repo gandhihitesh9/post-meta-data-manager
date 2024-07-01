@@ -39,12 +39,12 @@ if ( !defined( 'ABSPATH' ) ) exit;
                 <td><?php echo esc_html( $meta_key ); ?></td>
                 <td><?php echo esc_html( var_export( $value, true ) ); ?></td>
                 <td>
-                    <a href="javascript:;" data-id="<?php echo $meta_key; ?>" id="edit-<?php echo $meta_key; ?>" class="edit-meta"><?php echo esc_html__( 'Edit', 'pmdm_wp' ); ?></a> 
+					<a href="javascript:;" data-id="<?php echo esc_html( $meta_key ); ?>" id="edit-<?php echo esc_html( $meta_key ); ?>" class="edit-meta"><?php echo esc_html__( 'Edit', 'pmdm_wp' ); ?></a> 
 
                     <div id="javascript:;" class="modal-window">
                         <div>
                             <a href="javascript:;" title="Close" class="modal-close">x</a>
-                            <h1><strong><?php echo esc_html__( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo $meta_key; ?></h1>
+							<h1><strong><?php echo esc_html__( 'Currently you are editing', 'pmdm_wp' ); ?></strong>: <?php echo esc_html( $meta_key ); ?></h1>
                             <div class="model-body">
                                 <form method="post" action="">
                                 <?php wp_nonce_field( 'change_post_meta_action', 'change_post_meta_field' ); ?>
@@ -82,7 +82,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
                     </div>
 
                     | 
-                    <a href="javascript:;" data-id="<?php echo esc_html($meta_key); ?>"  id="delete-<?php echo ($meta_key); ?>" class="delete-meta"><?php echo esc_html__( 'Delete', 'pmdm_wp' ); ?></a>
+					<a href="javascript:;" data-id="<?php echo esc_html( $meta_key ); ?>"  id="delete-<?php echo esc_html($meta_key); ?>" class="delete-meta"><?php echo esc_html__( 'Delete', 'pmdm_wp' ); ?></a>
                 </td>
             </tr>
 
