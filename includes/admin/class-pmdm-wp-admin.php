@@ -54,8 +54,20 @@ class Pmdm_Wp_Admin
         $metabox_screen  = $post_type;
         $metabox_context = 'normal';
         $metabox_priority    = 'low';
-
-        add_meta_box($metabox_id, $metabox_title, array($this, 'pmdm_wp_display_post_metadata'), $metabox_screen, $metabox_context, $metabox_priority, array());
+        $pmdm_selected_post_types = get_option("pmdm_selected_post_types");
+        if(empty($pmdm_selected_post_types)){
+            $pmdm_selected_post_types = array(
+                "post",
+                "page",
+                "product",
+                "shop_order",
+                "shop_coupon",
+            );
+        }
+        if(in_array($post_type, $pmdm_selected_post_types)){
+            add_meta_box($metabox_id, $metabox_title, array($this, 'pmdm_wp_display_post_metadata'), $metabox_screen, $metabox_context, $metabox_priority, array());
+        }
+        
     }
 
     /**
@@ -90,10 +102,19 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_ajax_delete_meta()
     {
-        if (isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id']) {
-
+        if (isset($_POST) && !empty($_POST['post_id']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' ) ) {
+            
+            $meta_value = '';
             $post_id = intval($_POST['post_id']);
             $meta_id = esc_html($_POST['meta_id']);
+
+            $meta_value = get_post_meta($post_id, $meta_id, true);
+
+            if(empty($meta_value) && $meta_value != "0") {
+                wp_send_json_error(
+                    array('msg' => esc_html__('You have enter incorrect meta_id ! Please try again', 'pmdm_wp'))
+                );
+            }
 
             delete_post_meta($post_id, $meta_id);
 
@@ -118,10 +139,18 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_delete_user_meta()
     {
-        if (isset($_POST) && !empty($_POST['user_ID']) && $_POST['meta_id']) {
+        if (isset($_POST) && !empty($_POST['user_ID']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' )) {
 
             $user_ID = intval($_POST['user_ID']);
             $meta_id = esc_html($_POST['meta_id']);
+
+            $user_meta_value = get_user_meta($user_ID, $meta_id, true );
+
+            if(empty($user_meta_value) && $user_meta_value != "0") {
+                wp_send_json_error(
+                    array('msg' => esc_html__('You have enter incorrect meta_id ! Please try again', 'pmdm_wp'))
+                );
+            }
 
             delete_user_meta($user_ID, $meta_id);
 
@@ -154,7 +183,7 @@ class Pmdm_Wp_Admin
                     $store_keys = array_merge($level_key, array($gmfvk));
                     $this->pmdm_wp_get_recursively_inputs($meta_main_key, $gmfvv, $store_keys);
                 } else {
-                    if (is_string($gmfvk)) {
+                    if (is_string($gmfvv)) {
                         $input_name = $meta_main_key;
 
                         $display_label = $meta_main_key;
@@ -198,7 +227,7 @@ class Pmdm_Wp_Admin
     public function pmdm_wp_change_post_meta()
     {
 
-        if (isset($_POST['change_post_meta_field']) && wp_verify_nonce($_POST['change_post_meta_field'], 'change_post_meta_action')) {
+        if (isset($_POST['change_post_meta_field']) && wp_verify_nonce($_POST['change_post_meta_field'], 'change_post_meta_action') && current_user_can('administrator')) {
 
             if (!empty($_POST)) {
 
@@ -206,13 +235,17 @@ class Pmdm_Wp_Admin
                     if ($pk == "change_post_meta_field" || $pk == "_wp_http_referer" || $pk == "current_post_id") {
                         continue;
                     }
-                    if (is_array($pv)) {
-                        $pv = $this->pmdm_wp_escape_slashes_deep($pv);
-                    } else {
-                        $pv = wp_kses_post($pv);
+                    $is_meta_exists = get_post_meta(intval($_POST["current_post_id"]), $pk, true);
+                    if(!empty($is_meta_exists)){
+                        if (is_array($pv)) {
+                            $pv = $this->pmdm_wp_escape_slashes_deep($pv);
+                        } else {
+                            $pv = wp_kses_post($pv);
+                        }
+    
+                        update_post_meta(intval($_POST["current_post_id"]), $pk, $pv);
                     }
-
-                    update_post_meta(intval($_POST["current_post_id"]), $pk, $pv);
+                    
                 }
             }
         }
@@ -227,7 +260,7 @@ class Pmdm_Wp_Admin
     public function pmdm_wp_change_user_meta()
     {
 
-        if (isset($_POST['change_user_meta_field']) && wp_verify_nonce($_POST['change_user_meta_field'], 'change_user_meta_action')) {
+        if (isset($_POST['change_user_meta_field']) && wp_verify_nonce($_POST['change_user_meta_field'], 'change_user_meta_action') && current_user_can('administrator')) {
 
             if (!empty($_POST)) {
 
@@ -332,9 +365,21 @@ class Pmdm_Wp_Admin
     public function pmdm_add_html_for_all_taxonomy()
     {
         $all_taxonomies = get_taxonomies();
+        $pmdm_selected_taxonomies = get_option("pmdm_selected_taxonomies");
+        if(empty($pmdm_selected_taxonomies)){
+            $pmdm_selected_taxonomies = array(
+                "category",
+                "post_tag",
+                "product_cat",
+                "product_tag",
+            );
+        }
         if (!empty($all_taxonomies)) {
             foreach ($all_taxonomies as $taxk => $taxv) {
-                add_action($taxk . '_edit_form', array($this, 'pmdm_wp_taxonomy_metadata_box'), 99);
+                if(in_array($taxk, $pmdm_selected_taxonomies)){
+                    add_action($taxk . '_edit_form', array($this, 'pmdm_wp_taxonomy_metadata_box'), 99);
+                }
+                
             }
         }
     }
@@ -350,7 +395,7 @@ class Pmdm_Wp_Admin
     {
 
 
-        if (isset($_POST['change_term_meta_field']) && wp_verify_nonce($_POST['change_term_meta_field'], 'change_term_meta_action')) {
+        if (isset($_POST['change_term_meta_field']) && wp_verify_nonce($_POST['change_term_meta_field'], 'change_term_meta_action') && current_user_can('administrator')) {
             if (!empty($_POST)) {
 
                 $disallow_term_key_array = apply_filters(PMDM_WP_PREFIX . "_disallow_term_keys", array(
@@ -400,10 +445,19 @@ class Pmdm_Wp_Admin
 
     public function pmdm_wp_delete_term_meta()
     {
-        if (isset($_POST) && !empty($_POST['term_id']) && $_POST['meta_id']) {
+        if (isset($_POST) && !empty($_POST['term_id']) && $_POST['meta_id'] && current_user_can('administrator') && wp_verify_nonce( $_POST['security'], 'ajax-security' )) {
 
+            $term_value = '';
             $term_id = intval($_POST['term_id']);
             $meta_id = esc_html($_POST['meta_id']);
+
+            $term_value = get_term_meta($term_id, $meta_id, true);
+
+            if(empty($term_value) && $term_value != "0") {
+                wp_send_json_error(
+                    array('msg' => esc_html__('You have enter incorrect meta_id ! Please try again', 'pmdm_wp'))
+                );
+            }
 
             delete_term_meta($term_id, $meta_id);
 
@@ -419,6 +473,36 @@ class Pmdm_Wp_Admin
         die();
     }
 
+    public function pmdm_admin_menus(){
+        $parent_page_slug = "pmdm-general-settings";
+        add_menu_page( 
+            esc_html__('PMDM Settings', 'pmdm_wp'),
+            esc_html__('PMDM Settings', 'pmdm_wp'), 
+            'manage_options', 
+            $parent_page_slug, 
+            array($this, "pmdm_general_settings_cb"),
+        );
+        add_submenu_page(
+            $parent_page_slug,
+            esc_html__('Help', 'pmdm_wp'),
+            esc_html__('Help', 'pmdm_wp'),
+            'manage_options', 
+            'pmdm-help',
+            array($this, "pmdm_help_cb"),
+        );
+    }
+
+    public function pmdm_general_settings_cb(){
+        require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_general_settings_html.php");
+    }
+    public function pmdm_help_cb(){
+        require_once(PMDM_WP_ADMIN_DIR . "/html/pmdm_help_html.php");
+    }
+
+    public function pmdm_register_general_settings_cb(){
+        register_setting( 'pmdm_general_settings_group', 'pmdm_selected_post_types' );
+        register_setting( 'pmdm_general_settings_group', 'pmdm_selected_taxonomies' );
+    }
 
     /**
      * Adding Hooks
@@ -434,7 +518,7 @@ class Pmdm_Wp_Admin
         add_action("admin_init", array($this, "pmdm_wp_change_post_meta"), 10);
 
         add_action("wp_ajax_pmdm_wp_delete_meta", array($this, "pmdm_wp_ajax_delete_meta"));
-        add_action("wp_ajax_nopriv_pmdm_wp_delete_meta", array($this, "pmdm_wp_ajax_delete_meta"));
+        
 
 
         // user details page hooks
@@ -442,14 +526,17 @@ class Pmdm_Wp_Admin
         add_action('show_user_profile', array($this, 'pmdm_wp_user_metadata_box'), 99);
         add_action('admin_init', array($this, 'pmdm_wp_change_user_meta'), 11);
         add_action("wp_ajax_pmdm_wp_delete_user_meta", array($this, "pmdm_wp_delete_user_meta"));
-        add_action("wp_ajax_nopriv_pmdm_wp_delete_user_meta", array($this, "pmdm_wp_delete_user_meta"));
+        
 
 
         // taxonomy details page hooks
         add_action("admin_init", array($this, "pmdm_add_html_for_all_taxonomy"), 99);
         add_action('admin_init', array($this, 'pmdm_wp_change_taxonomy_meta'), 12);
         add_action("wp_ajax_pmdm_wp_delete_term_meta", array($this, "pmdm_wp_delete_term_meta"));
-        add_action("wp_ajax_nopriv_pmdm_wp_delete_term_meta", array($this, "pmdm_wp_delete_term_meta"));
+        
+
+        add_action('admin_menu', array($this, 'pmdm_admin_menus'), 10);
+        add_action( 'admin_init', array($this, 'pmdm_register_general_settings_cb') );
     }
 }
 ?>

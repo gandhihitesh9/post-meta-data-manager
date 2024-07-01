@@ -91,6 +91,7 @@ jQuery(document).ready(function($) {
 	                action: 'pmdm_wp_delete_meta',
 	                post_id : post_id,
 	                meta_id: meta_id,
+                    security: pmdm_wp_ajax.security
 	            },
 	            success: function (response) {
 	            	if(response.success) {
@@ -135,6 +136,7 @@ jQuery(document).ready(function($) {
 	                action: 'pmdm_wp_delete_user_meta',
 	                user_ID : user_ID,
 	                meta_id: meta_id,
+                    security: pmdm_wp_ajax.security
 	            },
 	            success: function (response) {
 	            	if(response.success) {
@@ -179,6 +181,7 @@ jQuery(document).ready(function($) {
 	                action: 'pmdm_wp_delete_term_meta',
 	                term_id : term_id,
 	                meta_id: meta_id,
+                    security: pmdm_wp_ajax.security
 	            },
 	            success: function (response) {
 	            	if(response.success) {
