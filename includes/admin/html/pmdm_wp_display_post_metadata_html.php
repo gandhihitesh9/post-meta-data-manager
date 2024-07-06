@@ -22,11 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 
 	foreach ( $post_meta as $meta_key => $value ) {
-
-		if ( is_array( $value ) ) {  // Check if Array
-
+		if ( is_array( $value ) ) {
 			foreach ( $value as $num => $el ) {
-
 				$value[ $num ] = maybe_unserialize( $el );
 			}
 		} else {
@@ -36,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$is_added = isset( $post_meta[ $meta_key ] ) ? false : true;
 
 		if ( isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) { // HPOS
-			$order                 = wc_get_order( $post->ID );
+			$order                 = wc_get_order( $post->get_id() );
 			$get_meta_field_values = $order->get_meta( $meta_key, true );
 		} else {
 			$get_meta_field_values = get_post_meta( $post->ID, $meta_key, true );

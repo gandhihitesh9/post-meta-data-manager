@@ -24,6 +24,9 @@ if ( ! defined( 'PMDM_WP_DIR' ) ) {
 if ( ! defined( 'PMDM_WP_VERSION' ) ) {
 	define( 'PMDM_WP_VERSION', '1.3.0' );
 }
+if ( ! defined( 'PMDM_WP_PLUGIN_MAIN_FILE_PATH' ) ) {
+	define( 'PMDM_WP_PLUGIN_MAIN_FILE_PATH', __FILE__ );   // mail file path
+}
 if ( ! defined( 'PMDM_WP_URL' ) ) {
 	define( 'PMDM_WP_URL', plugin_dir_url( __FILE__ ) );   // Plugin url
 }

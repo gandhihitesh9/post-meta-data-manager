@@ -39,18 +39,6 @@ class Pmdm_Wp_Admin {
 
 		$current_screen = get_current_screen();
 
-		if ( isset( $current_screen->action ) && $current_screen->action == 'add' ) { // check new post
-			return;
-		}
-
-		if ( ! isset( $post->ID ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
-			return;
-		}
-
 		$metabox_id               = 'pmdm-wp';
 		$metabox_title            = esc_html__( 'Post Metadata Manager', 'pmdm_wp' );
 		$metabox_screen           = $post_type;
@@ -58,7 +46,13 @@ class Pmdm_Wp_Admin {
 		$metabox_priority         = 'low';
 		$pmdm_selected_post_types = get_option( 'pmdm_selected_post_types' );
 		if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
+			if ( ! $post->get_id() ) {
+				return;
+			}
 
+			if ( ! current_user_can( 'edit_post', $post->get_id() ) ) {
+				return;
+			}
 			if ( $post_type == 'woocommerce_page_wc-orders' && $_GET['action'] != 'edit' ) {  // HPOS
 				return;
 			}
@@ -81,9 +75,20 @@ class Pmdm_Wp_Admin {
 						? wc_get_page_screen_id( 'shop-order' )
 						: 'shop_order';
 				}
+
 				add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
 			}
 		} else {
+			if ( isset( $current_screen->action ) && $current_screen->action == 'add' ) { // check new post
+				return;
+			}
+			if ( ! $post->ID ) {
+				return;
+			}
+
+			if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+				return;
+			}
 			if ( empty( $pmdm_selected_post_types ) ) {
 				$pmdm_selected_post_types = array(
 					'post',
@@ -109,12 +114,12 @@ class Pmdm_Wp_Admin {
 	public function pmdm_wp_display_post_metadata( $post ) {
 
 		$post_meta = array();
-		if ( empty( $post->ID ) ) {
-			return;
-		}
-		if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
 
-			$order = wc_get_order( $post->ID );
+		if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
+			if ( ! $post->get_id() ) {
+				return;
+			}
+			$order = wc_get_order( $post->get_id() );
 
 			if ( $order ) { // HPOS
 				$order_meta = $order->get_meta_data();
@@ -125,7 +130,9 @@ class Pmdm_Wp_Admin {
 				}
 			}
 		} else {
-
+			if ( ! $post->ID ) {
+				return;
+			}
 			$post_meta = get_post_meta( $post->ID );
 
 		}
@@ -146,9 +153,9 @@ class Pmdm_Wp_Admin {
 		if ( isset( $_POST ) && ! empty( $_POST['post_id'] ) && $_POST['meta_id'] && current_user_can( 'administrator' ) && wp_verify_nonce( $_POST['security'], 'ajax-security' ) ) {
 
 			$meta_value = '';
-			$post_id = intval($_POST['post_id']);
-            $meta_id = esc_html($_POST['meta_id']);            
-            $order = wc_get_order( $post_id );
+			$post_id    = intval( $_POST['post_id'] );
+			$meta_id    = esc_html( $_POST['meta_id'] );
+			$order      = wc_get_order( $post_id );
 			if ( OrderUtil::custom_orders_table_usage_is_enabled() && $order ) {
 
 				// HPOS
@@ -289,34 +296,32 @@ class Pmdm_Wp_Admin {
 					if ( $pk == 'change_post_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_post_id' ) {
 						continue;
 					}
-                    if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset($_GET['page']) && $_GET['page'] == 'wc-orders' ) { // HPOS order
-                        
-                        $order = wc_get_order( $_POST["current_post_id"] );
-                        $is_meta_exists = $order->get_meta($pk, true);
-                        if(!empty($is_meta_exists)){
-                            if (is_array($pv)) {
-                                $pv = $this->pmdm_wp_escape_slashes_deep($pv);
-                            } else {
-                                $pv = wp_kses_post($pv);
-                            }  
-                            $order->update_meta_data( $pk , $pv );
-                            $order->save();                           
-                            
-                        }                            
-                        
-                    }else{
-                        $is_meta_exists = get_post_meta( intval( $_POST['current_post_id'] ), $pk, true );
-                        if ( ! empty( $is_meta_exists ) ) {
-                            if ( is_array( $pv ) ) {
-                                $pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-                            } else {
-                                $pv = wp_kses_post( $pv );
-                            }
-    
-                            update_post_meta( intval( $_POST['current_post_id'] ), $pk, $pv );
-                        }
-                    }
-					
+					if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) { // HPOS order
+
+						$order          = wc_get_order( $_POST['current_post_id'] );
+						$is_meta_exists = $order->get_meta( $pk, true );
+						if ( ! empty( $is_meta_exists ) ) {
+							if ( is_array( $pv ) ) {
+								$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+							} else {
+								$pv = wp_kses_post( $pv );
+							}
+							$order->update_meta_data( $pk, $pv );
+							$order->save();
+
+						}
+					} else {
+						$is_meta_exists = get_post_meta( intval( $_POST['current_post_id'] ), $pk, true );
+						if ( ! empty( $is_meta_exists ) ) {
+							if ( is_array( $pv ) ) {
+								$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+							} else {
+								$pv = wp_kses_post( $pv );
+							}
+
+							update_post_meta( intval( $_POST['current_post_id'] ), $pk, $pv );
+						}
+					}
 				}
 			}
 		}
@@ -565,13 +570,19 @@ class Pmdm_Wp_Admin {
 		register_setting( 'pmdm_general_settings_group', 'pmdm_selected_taxonomies' );
 	}
 
+	public function pmdm_hpos_declare_compatibility() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', PMDM_WP_PLUGIN_MAIN_FILE_PATH, true );
+		}
+	}
+
 	/**
 	 * Adding Hooks
 	 *
 	 * @package Post Meta Data Manager
 	 * @since 1.0
 	 */
-	function add_hooks() {
+	public function add_hooks() {
 
 		// post details page hooks
 		add_action( 'add_meta_boxes', array( $this, 'pmdm_wp_add_meta_boxes' ), 1000, 2 );
@@ -592,6 +603,8 @@ class Pmdm_Wp_Admin {
 
 		add_action( 'admin_menu', array( $this, 'pmdm_admin_menus' ), 10 );
 		add_action( 'admin_init', array( $this, 'pmdm_register_general_settings_cb' ) );
+
+		add_action( 'before_woocommerce_init', array( $this, 'pmdm_hpos_declare_compatibility' ) );
 	}
 }
 ?>
