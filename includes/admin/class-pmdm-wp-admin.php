@@ -298,8 +298,10 @@ class Pmdm_Wp_Admin {
 					}
 					if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) { // HPOS order
 
-						$order          = wc_get_order( $_POST['current_post_id'] );
+						$order = wc_get_order( $_POST['current_post_id'] );
+
 						$is_meta_exists = $order->get_meta( $pk, true );
+
 						if ( ! empty( $is_meta_exists ) ) {
 							if ( is_array( $pv ) ) {
 								$pv = $this->pmdm_wp_escape_slashes_deep( $pv );

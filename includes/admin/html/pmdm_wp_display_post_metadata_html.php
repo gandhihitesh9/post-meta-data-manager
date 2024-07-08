@@ -78,7 +78,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<?php
 								}
 								?>
-									<input type="hidden" value="<?php echo esc_html( $post->ID ); ?>" name="current_post_id" />
+								<?php
+								if ( isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) { // HPOS
+									?>
+										<input type="hidden" value="<?php echo esc_html( $post->get_id() ); ?>" name="current_post_id" />
+									<?php
+								} else {
+									?>
+										<input type="hidden" value="<?php echo esc_html( $post->ID ); ?>" name="current_post_id" />
+									<?php
+								}
+								?>
+									
 
 									<input type="submit" value="<?php echo esc_html__( 'Change', 'pmdm_wp' ); ?>" class="change_btn" />
 
