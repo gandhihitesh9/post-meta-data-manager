@@ -62,6 +62,13 @@ The plugin is simple to install:
 
 == Changelog ==
 
+- 1.4.0 - 2023-07-10
+* Resolved all support tickets.
+* https://wordpress.org/support/topic/fatal-error-on-coupons-because-of-wrong-data-type/
+* https://wordpress.org/support/topic/incompatible-with-high-performance-order-storage-17/
+* https://wordpress.org/support/topic/plugin-conflict-with-postx-pro-taxonomy-image-function/
+* https://wordpress.org/support/topic/bug-woocommerce-price-not-update-if-sale-price-is-earlier-set-and-removed/
+
 = 1.3.0 - 2024-06-29 = 
 * Vulnerability fixes
 

@@ -291,49 +291,47 @@ class Pmdm_Wp_Admin {
 		if ( isset( $_POST['change_post_meta_field'] ) && wp_verify_nonce( $_POST['change_post_meta_field'], 'change_post_meta_action' ) && current_user_can( 'administrator' ) ) {
 
 			if ( ! empty( $_POST ) ) {
-
 				foreach ( $_POST as $pk => $pv ) {
 
 					if ( $pk == 'change_post_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_post_id' ) {
 						continue;
 					}
 
-					if( $pk == 'changed_keys' ){
-				
+					if ( isset( $_POST['changed_keys'] ) && $pk == $_POST['changed_keys'] ) {
+
 						if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
 
-						$order = wc_get_order( $_POST['current_post_id'] );
+							$order = wc_get_order( $_POST['current_post_id'] );
 
-						$is_meta_exists = $order->get_meta( $pk, true );
+							$is_meta_exists = $order->get_meta( $pk, true );
 
-						if ( ! empty( $is_meta_exists ) ) {
-							if ( is_array( $pv ) ) {
-								$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-							} else {
-								$pv = wp_kses_post( $pv );
+							if ( ! empty( $is_meta_exists ) ) {
+								if ( is_array( $pv ) ) {
+									$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+								} else {
+									$pv = wp_kses_post( $pv );
+								}
+								$order->update_meta_data( $pk, $pv );
+								$order->save();
+
 							}
-							$order->update_meta_data( $pk, $pv );
-							$order->save();
+						} else {
 
-						}
-					} else {
+							$is_meta_exists = get_post_meta( intval( $_POST['current_post_id'] ), $pk, true );
+							if ( ! empty( $is_meta_exists ) ) {
+								if ( is_array( $pv ) ) {
+									$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+								} else {
+									$pv = wp_kses_post( $pv );
+								}
 
-						$is_meta_exists = get_post_meta( intval( $_POST['current_post_id'] ), $pk, true );
-						if ( ! empty( $is_meta_exists ) ) {
-							if ( is_array( $pv ) ) {
-								$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-							} else {
-								$pv = wp_kses_post( $pv );
-							}
+								if ( ( $pk == 'product_ids' || $pk == 'exclude_product_ids' ) && isset( $_POST['post_type'] ) && $_POST['post_type'] == 'shop_coupon' ) {
 
-							
-								if( ( $pk == 'product_ids' || $pk == 'exclude_product_ids' ) && isset( $_POST['post_type'] ) && $_POST['post_type'] == 'shop_coupon' ){
-										
 									$product_ids = implode( ',', $pv );
 									update_post_meta( intval( $_POST['current_post_id'] ), $pk, $product_ids );
-									
-								}else{
-							update_post_meta( intval( $_POST['current_post_id'] ), $pk, $pv );
+
+								} else {
+									update_post_meta( intval( $_POST['current_post_id'] ), $pk, $pv );
 								}
 							}
 						}
@@ -359,13 +357,15 @@ class Pmdm_Wp_Admin {
 					if ( $pk == 'change_user_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_user_id' ) {
 						continue;
 					}
-					if ( is_array( $pv ) ) {
-						$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-					} else {
-						$pv = wp_kses_post( $pv );
-					}
+					if ( isset( $_POST['changed_keys'] ) && $pk == $_POST['changed_keys'] ) {
+						if ( is_array( $pv ) ) {
+							$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+						} else {
+							$pv = wp_kses_post( $pv );
+						}
 
-					update_user_meta( intval( $_POST['current_user_id'] ), $pk, $pv );
+						update_user_meta( intval( $_POST['current_user_id'] ), $pk, $pv );
+					}
 				}
 			}
 		}
@@ -502,13 +502,15 @@ class Pmdm_Wp_Admin {
 					if ( in_array( $pk, $disallow_term_key_array ) ) {
 						continue;
 					}
-					if ( is_array( $pv ) ) {
-						$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-					} else {
-						$pv = wp_kses_post( $pv );
-					}
+					if ( isset( $_POST['changed_keys'] ) && $pk == $_POST['changed_keys'] ) {
+						if ( is_array( $pv ) ) {
+							$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+						} else {
+							$pv = wp_kses_post( $pv );
+						}
 
-					update_term_meta( intval( $_POST['current_term_id'] ), $pk, $pv );
+						update_term_meta( intval( $_POST['current_term_id'] ), $pk, $pv );
+					}
 				}
 
 				/*
