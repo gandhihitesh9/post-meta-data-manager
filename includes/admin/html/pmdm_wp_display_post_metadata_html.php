@@ -90,8 +90,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								}
 								?>
 									
-
-									<input type="submit" value="<?php echo esc_html__( 'Change', 'pmdm_wp' ); ?>" class="change_btn" />
+								<input type="hidden" value="<?php echo esc_html( $meta_key ); ?>" name="changed_keys" id="changed_keys" />
+                                <input type="submit" value="<?php echo esc_html__( 'Change', 'pmdm_wp' ); ?>" class="change_btn" id="change_btn"/>
 
 								</form>
 							</div>

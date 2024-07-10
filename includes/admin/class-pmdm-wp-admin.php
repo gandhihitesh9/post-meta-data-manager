@@ -293,10 +293,14 @@ class Pmdm_Wp_Admin {
 			if ( ! empty( $_POST ) ) {
 
 				foreach ( $_POST as $pk => $pv ) {
+
 					if ( $pk == 'change_post_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_post_id' ) {
 						continue;
 					}
-					if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) { // HPOS order
+
+					if( $pk == 'changed_keys' ){
+				
+						if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
 
 						$order = wc_get_order( $_POST['current_post_id'] );
 
@@ -313,6 +317,7 @@ class Pmdm_Wp_Admin {
 
 						}
 					} else {
+
 						$is_meta_exists = get_post_meta( intval( $_POST['current_post_id'] ), $pk, true );
 						if ( ! empty( $is_meta_exists ) ) {
 							if ( is_array( $pv ) ) {
@@ -321,7 +326,16 @@ class Pmdm_Wp_Admin {
 								$pv = wp_kses_post( $pv );
 							}
 
+							
+								if( ( $pk == 'product_ids' || $pk == 'exclude_product_ids' ) && isset( $_POST['post_type'] ) && $_POST['post_type'] == 'shop_coupon' ){
+										
+									$product_ids = implode( ',', $pv );
+									update_post_meta( intval( $_POST['current_post_id'] ), $pk, $product_ids );
+									
+								}else{
 							update_post_meta( intval( $_POST['current_post_id'] ), $pk, $pv );
+								}
+							}
 						}
 					}
 				}
