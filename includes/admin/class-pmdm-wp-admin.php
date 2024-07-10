@@ -56,25 +56,15 @@ class Pmdm_Wp_Admin {
 			if ( $post_type == 'woocommerce_page_wc-orders' && $_GET['action'] != 'edit' ) {  // HPOS
 				return;
 			}
-			if ( empty( $pmdm_selected_post_types ) ) {
-				$pmdm_selected_post_types = array(
-					'post',
-					'page',
-					'product',
-					'shop_order',
-					'shop_coupon',
-					'woocommerce_page_wc-orders',
-				);
-			}
+			$pmdm_selected_post_types[] = 'woocommerce_page_wc-orders';
 
 			if ( in_array( $post_type, $pmdm_selected_post_types ) ) {
-				if ( $post_type == 'woocommerce_page_wc-orders' ) { // HPOS
+
 					$metabox_screen = wc_get_container()->get(
 						CustomOrdersTableController::class
 					)->custom_orders_table_usage_is_enabled()
 						? wc_get_page_screen_id( 'shop-order' )
 						: 'shop_order';
-				}
 
 				add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
 			}
