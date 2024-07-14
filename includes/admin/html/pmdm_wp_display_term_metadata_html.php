@@ -82,7 +82,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
                                                     }
                                                 ?>
                                                     <input type="hidden" value="<?php echo esc_html($term->term_id); ?>" name="current_term_id" />
-
+                                                    <input type="hidden" value="<?php echo esc_html( $meta_key ); ?>" name="changed_keys" id="changed_keys" />
                                                     <input type="submit" value="<?php echo esc_html__( 'Change', 'pmdm_wp' ); ?>" class="change_btn" />
 
                                                 </form>
