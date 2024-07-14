@@ -45,20 +45,24 @@ class Pmdm_Wp_Admin {
 		$metabox_context          = 'normal';
 		$metabox_priority         = 'low';
 		$pmdm_selected_post_types = get_option( 'pmdm_selected_post_types' );
-		if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
-			if ( ! $post->get_id() ) {
-				return;
-			}
 
-			if ( ! current_user_can( 'edit_post', $post->get_id() ) ) {
-				return;
-			}
-			if ( $post_type == 'woocommerce_page_wc-orders' && $_GET['action'] != 'edit' ) {  // HPOS
-				return;
-			}
-			$pmdm_selected_post_types[] = 'woocommerce_page_wc-orders';
+		if ( class_exists( OrderUtil::class ) && class_exists( CustomOrdersTableController::class ) ) {
 
-			if ( in_array( $post_type, $pmdm_selected_post_types ) ) {
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
+
+				if ( ! $post->get_id() ) {
+					return;
+				}
+
+				if ( ! current_user_can( 'edit_post', $post->get_id() ) ) {
+					return;
+				}
+				if ( $post_type == 'woocommerce_page_wc-orders' && $_GET['action'] != 'edit' ) {  // HPOS
+					return;
+				}
+				$pmdm_selected_post_types[] = 'woocommerce_page_wc-orders';
+
+				if ( in_array( $post_type, $pmdm_selected_post_types ) ) {
 
 					$metabox_screen = wc_get_container()->get(
 						CustomOrdersTableController::class
@@ -66,9 +70,11 @@ class Pmdm_Wp_Admin {
 						? wc_get_page_screen_id( 'shop-order' )
 						: 'shop_order';
 
-				add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
+					add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
+				}
 			}
 		} else {
+
 			if ( isset( $current_screen->action ) && $current_screen->action == 'add' ) { // check new post
 				return;
 			}
@@ -105,17 +111,20 @@ class Pmdm_Wp_Admin {
 
 		$post_meta = array();
 
-		if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
-			if ( ! $post->get_id() ) {
-				return;
-			}
-			$order = wc_get_order( $post->get_id() );
+		if ( class_exists( OrderUtil::class ) ) {
 
-			if ( $order ) { // HPOS
-				$order_meta = $order->get_meta_data();
-				if ( ! empty( $order_meta ) ) {
-					foreach ( $order_meta as $meta_data ) {
-						$post_meta[ $meta_data->key ] = $meta_data->value;
+			if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
+				if ( ! $post->get_id() ) {
+					return;
+				}
+				$order = wc_get_order( $post->get_id() );
+
+				if ( $order ) { // HPOS
+					$order_meta = $order->get_meta_data();
+					if ( ! empty( $order_meta ) ) {
+						foreach ( $order_meta as $meta_data ) {
+							$post_meta[ $meta_data->key ] = $meta_data->value;
+						}
 					}
 				}
 			}
@@ -145,23 +154,27 @@ class Pmdm_Wp_Admin {
 			$meta_value = '';
 			$post_id    = intval( $_POST['post_id'] );
 			$meta_id    = esc_html( $_POST['meta_id'] );
-			$order      = wc_get_order( $post_id );
-			if ( OrderUtil::custom_orders_table_usage_is_enabled() && $order ) {
 
-				// HPOS
-				if ( $order ) {
-					$meta_value = $order->get_meta( $meta_id, true );
-				}
+			if ( class_exists( OrderUtil::class ) ) {
 
-				if ( empty( $meta_value ) && $meta_value != '0' ) {
-					wp_send_json_error(
-						array( 'msg' => esc_html__( 'You have enter incorrect meta_id ! Please try again', 'pmdm_wp' ) )
-					);
-				}
+				$order = wc_get_order( $post_id );
+				if ( OrderUtil::custom_orders_table_usage_is_enabled() && $order ) {
 
-				if ( $order ) { // HPOS
-					$order->delete_meta_data( $meta_id );
-					$order->save_meta_data();
+					// HPOS
+					if ( $order ) {
+						$meta_value = $order->get_meta( $meta_id, true );
+					}
+
+					if ( empty( $meta_value ) && $meta_value != '0' ) {
+						wp_send_json_error(
+							array( 'msg' => esc_html__( 'You have enter incorrect meta_id ! Please try again', 'pmdm_wp' ) )
+						);
+					}
+
+					if ( $order ) { // HPOS
+						$order->delete_meta_data( $meta_id );
+						$order->save_meta_data();
+					}
 				}
 			} else {
 				$meta_value = get_post_meta( $post_id, $meta_id, true );
@@ -289,21 +302,24 @@ class Pmdm_Wp_Admin {
 
 					if ( isset( $_POST['changed_keys'] ) && $pk == $_POST['changed_keys'] ) {
 
-						if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
+						if ( class_exists( OrderUtil::class ) ) {
 
-							$order = wc_get_order( $_POST['current_post_id'] );
+							if ( OrderUtil::custom_orders_table_usage_is_enabled() && isset( $_GET['page'] ) && $_GET['page'] == 'wc-orders' ) {
 
-							$is_meta_exists = $order->get_meta( $pk, true );
+								$order = wc_get_order( $_POST['current_post_id'] );
 
-							if ( ! empty( $is_meta_exists ) ) {
-								if ( is_array( $pv ) ) {
-									$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
-								} else {
-									$pv = wp_kses_post( $pv );
+								$is_meta_exists = $order->get_meta( $pk, true );
+
+								if ( ! empty( $is_meta_exists ) ) {
+									if ( is_array( $pv ) ) {
+										$pv = $this->pmdm_wp_escape_slashes_deep( $pv );
+									} else {
+										$pv = wp_kses_post( $pv );
+									}
+									$order->update_meta_data( $pk, $pv );
+									$order->save();
+
 								}
-								$order->update_meta_data( $pk, $pv );
-								$order->save();
-
 							}
 						} else {
 
