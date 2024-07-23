@@ -72,6 +72,30 @@ class Pmdm_Wp_Admin {
 
 					add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
 				}
+			} else {
+				if ( isset( $current_screen->action ) && $current_screen->action == 'add' ) { // check new post
+					return;
+				}
+				if ( ! $post->ID ) {
+					return;
+				}
+
+				if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+					return;
+				}
+				if ( empty( $pmdm_selected_post_types ) ) {
+					$pmdm_selected_post_types = array(
+						'post',
+						'page',
+						'product',
+						'shop_order',
+						'shop_coupon',
+					);
+				}
+
+				if ( in_array( $post_type, $pmdm_selected_post_types ) ) {
+					add_meta_box( $metabox_id, $metabox_title, array( $this, 'pmdm_wp_display_post_metadata' ), $metabox_screen, $metabox_context, $metabox_priority, array() );
+				}
 			}
 		} else {
 
@@ -127,7 +151,13 @@ class Pmdm_Wp_Admin {
 						}
 					}
 				}
-			}
+			} else {
+                if ( ! $post->ID ) {
+                    return;
+                }
+                $post_meta = get_post_meta( $post->ID );
+    
+            }
 		} else {
 			if ( ! $post->ID ) {
 				return;
