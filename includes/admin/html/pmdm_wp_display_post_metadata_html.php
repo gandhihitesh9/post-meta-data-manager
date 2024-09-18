@@ -39,7 +39,7 @@ if (! defined('ABSPATH')) {
 				$date_paid = $order->get_date_paid('edit');
 			
 				if ($date_paid) {
-					$get_meta_field_values = wc_format_datetime($date_paid);
+					$get_meta_field_values = $date_paid->date("Y-m-d H:i:s");
 				}
 			}
 		} else {

@@ -152,7 +152,7 @@ class Pmdm_Wp_Admin
 					
 					$date_paid = $order->get_date_paid('edit');
 					if ($date_paid) {
-						$post_meta[ "date_paid" ] = wc_format_datetime($date_paid);
+						$post_meta[ "date_paid" ] = $date_paid->date("Y-m-d H:i:s");
 					}
 				}
 			} else {
@@ -352,7 +352,11 @@ class Pmdm_Wp_Admin
 								$order = wc_get_order($_POST['current_post_id']);
 
 								$is_meta_exists = $order->get_meta($pk, true);
-
+                            if ($pk == "date_paid") {
+                                $pv = wp_kses_post($pv);
+                                $order->set_date_paid(strtotime($pv));
+								$order->save();
+                            }
                             if (! empty($is_meta_exists)) {
                                 if (is_array($pv)) {
                                     $pv = $this->pmdm_wp_escape_slashes_deep($pv);
@@ -360,6 +364,7 @@ class Pmdm_Wp_Admin
                                     $pv = wp_kses_post($pv);
                                 }
                                 $order->update_meta_data($pk, $pv);
+								
                                 $order->save();
                             }
 						} else {
