@@ -149,6 +149,11 @@ class Pmdm_Wp_Admin
 							$post_meta[ $meta_data->key ] = $meta_data->value;
 						}
 					}
+					
+					$date_paid = $order->get_date_paid('edit');
+					if ($date_paid) {
+						$post_meta[ "date_paid" ] = wc_format_datetime($date_paid);
+					}
 				}
 			} else {
                 if (! $post->ID) {
@@ -181,15 +186,23 @@ class Pmdm_Wp_Admin
 			$meta_value = '';
 			$post_id    = intval($_POST['post_id']);
 			$meta_id    = esc_html($_POST['meta_id']);
+			$post_type = get_post_type($post_id);
+			
+			$is_hpos = false;
+			if (class_exists(OrderUtil::class) && $post_type == "shop_order") {
+				if (OrderUtil::custom_orders_table_usage_is_enabled()) {
+					$is_hpos = true;
+				}
+			}
 
-			if (class_exists(OrderUtil::class)) {
+			if ($is_hpos) {
 				$order = wc_get_order($post_id);
-				if (OrderUtil::custom_orders_table_usage_is_enabled() && $order) {
+				if ($order) {
 					// HPOS
 					if ($order) {
 						$meta_value = $order->get_meta($meta_id, true);
 					}
-
+					
 					if (empty($meta_value) && $meta_value != '0') {
 						wp_send_json_error(
 							array( 'msg' => esc_html__('You have enter incorrect meta_id ! Please try again', 'pmdm_wp') )
@@ -199,11 +212,14 @@ class Pmdm_Wp_Admin
 					if ($order) { // HPOS
 						$order->delete_meta_data($meta_id);
 						$order->save_meta_data();
+						wp_send_json_success(
+							array( 'msg' => esc_html__('Meta successfully deleted', 'pmdm_wp') )
+						);
 					}
 				}
 			} else {
 				$meta_value = get_post_meta($post_id, $meta_id, true);
-
+				
 				if (empty($meta_value) && $meta_value != '0') {
 					wp_send_json_error(
 						array( 'msg' => esc_html__('You have enter incorrect meta_id ! Please try again', 'pmdm_wp') )
@@ -319,28 +335,33 @@ class Pmdm_Wp_Admin
 
 		if (isset($_POST['change_post_meta_field']) && wp_verify_nonce($_POST['change_post_meta_field'], 'change_post_meta_action') && current_user_can('administrator')) {
 			if (! empty($_POST)) {
+				$is_hpos = false;
+				if (class_exists(OrderUtil::class) && isset($_GET['page']) && $_GET['page'] == 'wc-orders') {
+					if (OrderUtil::custom_orders_table_usage_is_enabled()) {
+						$is_hpos = true;
+					}
+				}
+
 				foreach ($_POST as $pk => $pv) {
 					if ($pk == 'change_post_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_post_id') {
 						continue;
 					}
 
 					if (isset($_POST['changed_keys']) && $pk == $_POST['changed_keys']) {
-						if (class_exists(OrderUtil::class) && isset($_GET['page']) && $_GET['page'] == 'wc-orders') {
-							if (OrderUtil::custom_orders_table_usage_is_enabled()) {
+						if ($is_hpos) {
 								$order = wc_get_order($_POST['current_post_id']);
 
 								$is_meta_exists = $order->get_meta($pk, true);
 
-								if (! empty($is_meta_exists)) {
-									if (is_array($pv)) {
-										$pv = $this->pmdm_wp_escape_slashes_deep($pv);
-									} else {
-										$pv = wp_kses_post($pv);
-									}
-									$order->update_meta_data($pk, $pv);
-									$order->save();
-								}
-							}
+                            if (! empty($is_meta_exists)) {
+                                if (is_array($pv)) {
+                                    $pv = $this->pmdm_wp_escape_slashes_deep($pv);
+                                } else {
+                                    $pv = wp_kses_post($pv);
+                                }
+                                $order->update_meta_data($pk, $pv);
+                                $order->save();
+                            }
 						} else {
 							$is_meta_exists = get_post_meta(intval($_POST['current_post_id']), $pk, true);
 							if (! empty($is_meta_exists)) {
