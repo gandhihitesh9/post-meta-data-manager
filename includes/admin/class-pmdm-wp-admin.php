@@ -401,10 +401,30 @@ class Pmdm_Wp_Admin
 
 		if (isset($_POST['change_user_meta_field']) && wp_verify_nonce($_POST['change_user_meta_field'], 'change_user_meta_action') && current_user_can('administrator')) {
 			if (! empty($_POST)) {
+				
+				$is_multisite = is_multisite();
+				$current_site_id = get_current_blog_id();
+				
+				
 				foreach ($_POST as $pk => $pv) {
 					if ($pk == 'change_user_meta_field' || $pk == '_wp_http_referer' || $pk == 'current_user_id') {
 						continue;
 					}
+					
+					
+					if($is_multisite){
+
+						if (preg_match('/^wp_(\d+)_capabilities$/', $pk, $matches)) {
+							$meta_site_id = intval($matches[1]);
+							
+							if ($meta_site_id !== $current_site_id) {
+								continue;
+							}
+						}
+						
+					}
+					
+					
 					if (isset($_POST['changed_keys']) && $pk == $_POST['changed_keys']) {
 						if (is_array($pv)) {
 							$pv = $this->pmdm_wp_escape_slashes_deep($pv);
